@@ -1,6 +1,8 @@
 **This plugin is still in alpha stage, so it might be unstable. Feel free to share your feedback and report issues!**
 
 # OK, Gradle!
+![Take a look](images/look_and_feel.gif)
+
 IntelliJ/Android Studio Plugin for searching artifacts ids of popular Java libraries.
 
 Use those for adding new dependencies easily to your build.gradle files.
