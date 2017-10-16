@@ -1,0 +1,66 @@
+<idea-plugin>
+    <id>me.scana.okgradle</id>
+    <name>OK, Gradle!</name>
+    <version>0.0.1</version>
+    <vendor email="scanarch@gmail.com" url="http://github.com/scana">Marcin Robaczyński</vendor>
+
+    <description><![CDATA[
+        Plugin for searching artifacts ids of popular Java libraries.<br/>
+        Use those for adding new dependencies easily to your build.gradle files.<br/>
+        <br/>
+        Retrofit! Was it:<br/>
+        <pre>compile 'com.square.retrofit:retrofit2:2.3.0'</pre>
+        or
+        <pre>compile 'com.squareup.retrofit2:retrofit:2.3.0'</pre>
+        ?<br/><br/>
+        Android Design library! Was it:
+        <pre>compile 'com.android.support:design:26.1.0'</pre>
+        or
+        <pre>compile 'com.android.support:support-design:26.1.0'</pre>
+        ?<br/><br/>
+        With this plugin, you won't have to remember it anymore nor open an external browser to search for it on the Internet!<br/>
+        <br/>
+        <b>Usage:</b>
+        <br/>
+        Find the <em>OK, Gradle</em> action  with CTRL/CMD + SHIFT + A shortcut and type library's name that you are looking for in an input field.<br/>
+        To make your life even more easier, assign a shortcut to it. Personally, I prefer CMD+K - as in "OK!" (I don't use commit action in the IDE anyway).<br/>
+        You need to have an active Internet connection to be able to use this tool.
+        <br/>
+        <br/>
+        <b>This plugin is still in alpha stage, so it might be unstable. Feel free to visit <a href="http://github.com/scana/ok-gradle">OK, Gradle repo</a> and share your feedback - much appreciated!</b>
+        <br/>
+        <br/>
+        <b>Disclaimer</b><br/>
+        I want to thank <a href="https://chrisbroadfoot.id.au">Chris Broadfoot</a> for creating <a href="http://gradleplease.appspot.com">http://gradleplease.appspot.com</a> website, which was an inspiration for this plugin.
+    ]]>
+    </description>
+
+    <change-notes><![CDATA[
+      <em>0.0.1<em><br/>
+      First release - support for searching maven.org and maven.google.com repositories
+    ]]>
+    </change-notes>
+
+    <idea-version since-build="143.0"/>
+
+
+    <application-components>
+        <!-- Add your application components here -->
+    </application-components>
+
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="me.scana.okgradle.ok" class="me.scana.okgradle.OkGradleAction" text="OK, Gradle!"
+                description="Test Description">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
+
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+
+</idea-plugin>
