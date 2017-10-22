@@ -1,5 +1,7 @@
 **This plugin is still in alpha stage, so it might be unstable. Feel free to share your feedback and report issues!**
 
+This plugin is in JetBrains Plugins Repository! Get it from [here](https://plugins.jetbrains.com/plugin/10102-ok-gradle-).
+
 # OK, Gradle!
 ![Take a look](images/look_and_feel.gif)
 
