@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import me.scana.okgradle.data.GoogleRepository
+import me.scana.okgradle.data.JitPackRepository
 import me.scana.okgradle.data.MavenRepository
 import me.scana.okgradle.data.SearchArtifactInteractor
 import me.scana.okgradle.data.Spellcheck
@@ -21,7 +22,8 @@ class OkGradleAction : AnAction() {
                 SearchArtifactInteractor(
                         listOf(
                                 GoogleRepository(httpClient),
-                                MavenRepository(httpClient, gson)
+                                MavenRepository(httpClient, gson),
+                                JitPackRepository(httpClient)
                         )
                 )
         val dialog = OkGradleDialog(interactor)
