@@ -10,7 +10,7 @@ import java.net.URLEncoder
 class MavenRepository(private val httpClient: HttpClient, private val gson: Gson) : ArtifactRepository {
 
     companion object {
-        val MAVEN_URL = "http://search.maven.org/solrsearch/select"
+        const val MAVEN_URL = "http://search.maven.org/solrsearch/select"
     }
 
     override fun search(query: String): SearchResult {

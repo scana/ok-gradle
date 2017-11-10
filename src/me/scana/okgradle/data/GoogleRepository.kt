@@ -47,10 +47,10 @@ class GoogleRepository(val httpClient: HttpClient) : ArtifactRepository {
     }
 
     companion object {
-        val GOOGLE_MAVEN_URL = "https://dl.google.com/dl/android/maven2/"
+        const val GOOGLE_MAVEN_URL = "https://dl.google.com/dl/android/maven2/"
 
-        val MAVEN_METADATA = "maven-metadata.xml"
-        val MAVEN_METADATA_VERSION = "release"
+        const val MAVEN_METADATA = "maven-metadata.xml"
+        const val MAVEN_METADATA_VERSION = "release"
 
         val ARTIFACT_NAMES = listOf(
                 "com.android.support:support-compat",
