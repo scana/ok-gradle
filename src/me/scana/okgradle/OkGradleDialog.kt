@@ -20,7 +20,7 @@ import javax.swing.event.DocumentEvent
 class OkGradleDialog(val interactor: SearchArtifactInteractor) : DialogWrapper(false) {
 
     companion object {
-        private val SEARCH_START_DELAY_IN_MILLIS = 500L
+        const private val SEARCH_START_DELAY_IN_MILLIS = 500L
     }
 
     private val hintLink = LinkLabel<Any>("", null).apply {
