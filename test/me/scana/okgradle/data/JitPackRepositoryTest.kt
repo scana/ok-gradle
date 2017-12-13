@@ -1,6 +1,8 @@
 package me.scana.okgradle.data
 
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.experimental.runBlocking
+import me.scana.okgradle.data.json.SpellcheckDeserializer
 import me.scana.okgradle.data.util.TestHttpClient
 import org.junit.Assert
 import org.junit.Assert.assertEquals
@@ -9,7 +11,11 @@ import org.junit.Test
 class JitPackRepositoryTest {
 
     private val httpClient = TestHttpClient()
-    private val repository = JitPackRepository(httpClient)
+    private val gson = GsonBuilder()
+            .registerTypeAdapter(Spellcheck::class.java, SpellcheckDeserializer())
+            .create()
+
+    private val repository = JitPackRepository(httpClient, gson)
 
     @Test
     fun `searches and parses results`() {

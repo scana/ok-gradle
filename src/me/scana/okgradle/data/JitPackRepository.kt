@@ -1,13 +1,13 @@
 package me.scana.okgradle.data
 
+import com.google.gson.Gson
 import org.apache.http.HttpStatus
 import org.apache.http.client.HttpClient
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.util.EntityUtils
-import org.json.JSONObject
 import java.net.URLEncoder
 
-class JitPackRepository(private val httpClient: HttpClient) : ArtifactRepository {
+class JitPackRepository(private val httpClient: HttpClient, private val gson: Gson) : ArtifactRepository {
 
     companion object {
         val JITPACK_URL = "https://jitpack.io/api/search"
@@ -54,32 +54,23 @@ class JitPackRepository(private val httpClient: HttpClient) : ArtifactRepository
         val artifacts = mutableListOf<Artifact>()
 
         responseString?.let {
-            val json = JSONObject(responseString)
-            val keys = json.keys()
+            val libs = gson.fromJson(it, HashMap<String, List<String>>().javaClass)
+            val iterator = libs.entries.iterator()
 
-            while (keys.hasNext()) {
-                val key = keys.next() as String
-                val jVersions = json.getJSONArray(key)
-                val versions = (0 until jVersions.length()).map { jVersions.getString(it) }
-
-                artifacts.add(Artifact(key, versions))
+            while (iterator.hasNext()) {
+                val lib = iterator.next()
+                artifacts.add(Artifact(lib.key, lib.value))
             }
         }
 
-        return JitPackResult(artifacts.sortedBy { it.id })
+        return JitPackResult(artifacts)
     }
 
     private fun parseArtifact(result: JitPackResult): String? {
-        if (result.artifacts.isEmpty()) {
-            return null
-        }
-
-        val artifact = result.artifacts.firstOrNull {
+        result.artifacts.firstOrNull {
             it.id.isNotEmpty() && it.versions.isNotEmpty()
-        }
-
-        artifact?.let {
-            return "${artifact.id}:${artifact.versions[0]}"
+        }?.let {
+            return "${it.id}:${it.versions[0]}"
         }
 
         return null

@@ -23,7 +23,7 @@ class OkGradleAction : AnAction() {
                         listOf(
                                 GoogleRepository(httpClient),
                                 MavenRepository(httpClient, gson),
-                                JitPackRepository(httpClient)
+                                JitPackRepository(httpClient, gson)
                         )
                 )
         val dialog = OkGradleDialog(interactor)
