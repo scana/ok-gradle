@@ -1,6 +1,7 @@
 package me.scana.okgradle.data
 
 import com.google.gson.Gson
+import me.scana.okgradle.util.fromJson
 import org.apache.http.HttpStatus
 import org.apache.http.client.HttpClient
 import org.apache.http.client.methods.HttpGet
@@ -54,7 +55,7 @@ class JitPackRepository(private val httpClient: HttpClient, private val gson: Gs
         val artifacts = mutableListOf<Artifact>()
 
         responseString?.let {
-            val libs = gson.fromJson(it, HashMap<String, List<String>>().javaClass)
+            val libs = gson.fromJson<Map<String, List<String>>>(it)
             val iterator = libs.entries.iterator()
 
             while (iterator.hasNext()) {
