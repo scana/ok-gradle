@@ -109,7 +109,7 @@ class OkGradleDialog(val interactor: SearchArtifactInteractor) : DialogWrapper(f
     }
 
     private fun onCopyToClipboardClick() {
-        CopyPasteManager.getInstance().setContents(TextTransferable(result.artifact))
+        CopyPasteManager.getInstance().setContents(TextTransferable("implementation '${result.artifact}'"))
     }
 
     private fun showProgress() {
