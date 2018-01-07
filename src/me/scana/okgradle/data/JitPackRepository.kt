@@ -48,7 +48,7 @@ class JitPackRepository(private val httpClient: HttpClient, private val gson: Gs
     private fun parseSearchResult(responseString: String?): SearchResult {
         val result = parseJson(responseString)
         val artifact = parseArtifact(result)
-        return SearchResult(artifact, "")
+        return SearchResult(artifact, null)
     }
 
     private fun parseJson(responseString: String?): JitPackResult {

@@ -36,6 +36,8 @@ class JitPackRepositoryTest {
         runBlocking {
             val result = repository.search("text")
             assertEquals("com.andreabaccega:android-form-edittext:1.3.4", result.artifact)
+            Assert.assertNull(result.suggestion)
+            Assert.assertNull(result.error)
         }
     }
 
