@@ -128,7 +128,7 @@ class OkGradleDialog(val interactor: SearchArtifactInteractor) : DialogWrapper(f
     private fun wrapAsDependencyExample(artifact: String): String {
         val builder = StringBuilder()
         builder.append("dependencies {\n")
-        builder.append("    compile '$artifact'\n")
+        builder.append("    implementation '$artifact'\n")
         builder.append("}")
         return builder.toString()
     }
