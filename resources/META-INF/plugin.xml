@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>me.scana.okgradle</id>
     <name>OK, Gradle!</name>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <vendor email="scanarch@gmail.com" url="http://github.com/scana">Marcin Robaczyński</vendor>
 
     <description><![CDATA[
@@ -36,7 +36,14 @@
     </description>
 
     <change-notes><![CDATA[
-      <em>0.0.1<em><br/>
+      <em>0.0.2<em>
+      <br/> - support for JitPack repository (thanks to @babedev)
+      <br/> - using <code>implementation</code> instead of <code>compile</code> statements
+      <br/> - copy to clipboard button now copies the whole statement instead of just an artifact
+      <br/>
+      <br/>
+      <em>0.0.1<em>
+      <br/>
       First release - support for searching maven.org and maven.google.com repositories
     ]]>
     </change-notes>
