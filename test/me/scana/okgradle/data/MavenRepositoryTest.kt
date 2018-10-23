@@ -1,77 +1,51 @@
 package me.scana.okgradle.data
 
 import com.google.gson.GsonBuilder
-import kotlinx.coroutines.experimental.runBlocking
-import me.scana.okgradle.data.json.SpellcheckDeserializer
-import me.scana.okgradle.data.util.TestHttpClient
-import org.junit.Assert.*
+import me.scana.okgradle.data.repository.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.io.IOException
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 
 @Suppress("MemberVisibilityCanPrivate")
 class MavenRepositoryTest {
 
-    val httpClient = TestHttpClient()
+    val mockOkHttpClient = MockOkHttpClient()
+
+    val networkClient = NetworkClient(mockOkHttpClient.instance())
+
     val gson = GsonBuilder()
             .registerTypeAdapter(Spellcheck::class.java, SpellcheckDeserializer())
             .create()
-    val repository = MavenRepository(httpClient, gson)
+
+    val repository = MavenRepository(networkClient, gson)
 
     @Test
     fun `builds proper query`() {
-        runBlocking {
-            repository.search("my_awesome_query")
-            assertEquals(
-                    "GET",
-                    httpClient.recentRequest?.method
-            )
-            assertEquals(
-                    "http://search.maven.org/solrsearch/select?q=my_awesome_query",
-                    httpClient.recentRequest?.uri.toString()
-            )
-        }
-    }
+        repository.search("my_awesome_query").blockingGet()
 
-    @Test
-    fun `handles network exceptions`() {
-        httpClient.throwExceptionOnRequest(IOException())
-        runBlocking {
-            val result = repository.search("something")
-            assertNull(result.artifact)
-            assertNull(result.suggestion)
-            assertTrue(result.error is IOException)
-        }
-    }
-
-    @Test
-    fun `handles invalid http status codes`() {
-        httpClient.returnBadRequestStatus()
-        runBlocking {
-            val result = repository.search("something")
-            assertNull(result.artifact)
-            assertNull(result.suggestion)
-            assertNotNull(result.error)
-            assertEquals(
-                    "Could not acquire results (400)",
-                    result.error?.message
-            )
-        }
+        val request = mockOkHttpClient.recentRequest()
+        assertEquals(
+                "GET",
+                request?.method()
+        )
+        assertEquals(
+                "http://search.maven.org/solrsearch/select?q=my_awesome_query",
+                request?.url()?.toString()
+        )
     }
 
     @Test
     fun `returns empty result on empty query`() {
-        runBlocking {
-            val result = repository.search("")
-            assertNull(result.artifact)
-            assertNull(result.suggestion)
-            assertNull(result.error)
-        }
+        val result = repository.search("").blockingGet() as SearchResult.Success
+        assertNull(result.suggestion)
+        assertTrue(result.artifacts.isEmpty())
     }
 
     @Test
     fun `searches and parses results - suggestions`() {
-        httpClient.returnsJson(
+        mockOkHttpClient.returnsJson(
                 """{
                   "responseHeader": {
                     "status": 0,
@@ -113,17 +87,15 @@ class MavenRepositoryTest {
                   }
                 }
                 """)
-        runBlocking {
-            val result = repository.search("retrfit")
-            assertNull(result.error)
-            assertNull(result.artifact)
-            assertEquals("retrofit", result.suggestion)
-        }
+
+        val result = repository.search("retrfit").blockingGet() as SearchResult.Success
+        assertTrue(result.artifacts.isEmpty())
+        assertEquals("retrofit", result.suggestion)
     }
 
     @Test
     fun `searches and parses results - artifact id with version`() {
-        httpClient.returnsJson(
+        mockOkHttpClient.returnsJson(
                 """{
                       "responseHeader": {
                         "status": 0,
@@ -249,12 +221,15 @@ class MavenRepositoryTest {
                     }
                 """
         )
-        runBlocking {
-            val result = repository.search("retrofit")
-            assertNull(result.error)
-            assertNull(result.suggestion)
-            assertEquals("com.squareup.retrofit2:retrofit:2.3.0", result.artifact)
-        }
+
+        val result = repository.search("retrfit").blockingGet() as SearchResult.Success
+        assertNull(result.suggestion)
+        assertEquals(4, result.artifacts.size)
+
+        val artifact = result.artifacts[1]
+        assertEquals("2.0.0-beta2", artifact.version)
+        assertEquals("com.squareup.retrofit", artifact.groupId)
+        assertEquals("retrofit", artifact.name)
     }
 
 }

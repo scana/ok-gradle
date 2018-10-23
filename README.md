@@ -34,6 +34,12 @@ You need to have an active Internet connection to be able to use this tool.
 ## Disclaimer
 I want to thank <a href="https://chrisbroadfoot.id.au">Chris Broadfoot</a> for creating <a href="http://gradleplease.appspot.com">http://gradleplease.appspot.com</a> website, which was an inspiration for this plugin.
 
+## Roadmap (take it with a grain of salt)
+- local storage for collecting info about most used most used (for sorting purposes)
+- global online db for storing most used artifacts (for sorting purposes)
+- settings panel for tweaking things 
+- ???
+
 ## License
 ```
 Copyright 2017 Marcin Robaczyński

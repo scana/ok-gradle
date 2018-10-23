@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>me.scana.okgradle</id>
     <name>OK, Gradle!</name>
-    <version>0.0.2</version>
+    <version>0.1.0</version>
     <vendor email="scanarch@gmail.com" url="http://github.com/scana">Marcin Robaczyński</vendor>
 
     <description><![CDATA[
@@ -36,6 +36,16 @@
     </description>
 
     <change-notes><![CDATA[
+      <em>0.1.0<em>
+      <br/> - artifacts can now be automatically added to a selected module!
+      <br/> - multiple artifacts are now being listed
+      <br/> - support for some of artifacts that contain annotation processors
+      <br/> - notifications added
+      <br/> - few useful shortcuts added (see the tips!)
+      <br/> - tips added
+      <br/> - lots of stability fixes - please report if you encounter anything weird
+      <br/>
+      <br/>
       <em>0.0.2<em>
       <br/> - support for JitPack repository (thanks to @babedev)
       <br/> - using <code>implementation</code> instead of <code>compile</code> statements
@@ -50,24 +60,14 @@
 
     <idea-version since-build="143.0"/>
 
-
-    <application-components>
-        <!-- Add your application components here -->
-    </application-components>
-
-
     <actions>
-        <!-- Add your actions here -->
         <action id="me.scana.okgradle.ok" class="me.scana.okgradle.OkGradleAction" text="OK, Gradle!"
-                description="Test Description">
+                description="Opens up Ok, Gradle dialog">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>
 
-
-    <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
-    </extensions>
-
+    <depends>com.intellij.modules.java</depends>
+    <depends>org.jetbrains.android</depends>
 
 </idea-plugin>

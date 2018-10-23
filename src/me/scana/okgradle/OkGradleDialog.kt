@@ -1,30 +1,32 @@
 package me.scana.okgradle;
 
-import com.intellij.openapi.ide.CopyPasteManager
+import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.module.Module
 import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.ui.PopupMenuListenerAdapter
+import com.intellij.ui.components.JBList
+import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.labels.LinkLabel
 import com.intellij.ui.components.panels.HorizontalLayout
 import com.intellij.ui.components.panels.VerticalLayout
-import com.intellij.util.ui.TextTransferable
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.swing.Swing
-import me.scana.okgradle.data.SearchArtifactInteractor
-import me.scana.okgradle.data.SearchResult
-import me.scana.okgradle.util.SimpleDocumentListener
+import io.reactivex.Observable
+import me.scana.okgradle.data.repository.Artifact
+import me.scana.okgradle.util.*
+import java.awt.Dimension
+import java.awt.Font
+import java.awt.event.KeyEvent
 import javax.swing.*
-import javax.swing.event.DocumentEvent
+import javax.swing.event.PopupMenuEvent
 
 
-class OkGradleDialog(val interactor: SearchArtifactInteractor) : DialogWrapper(false) {
+class OkGradleDialog(private val presenter: OkGradle.Presenter) : DialogWrapper(false), OkGradle.View {
 
     companion object {
-        const private val SEARCH_START_DELAY_IN_MILLIS = 500L
+        private val logger: Logger = Logger.getInstance(OkGradleDialog::class.java)
     }
 
     private val hintLink = LinkLabel<Any>("", null).apply {
-        setListener({ _, _ -> libraryQuery.text = result.suggestion }, null)
+        setListener({ _, _ -> presenter.onSuggestionClick(text) }, null)
     }
 
     private val hintPanel = JPanel(HorizontalLayout(2)).apply {
@@ -33,20 +35,54 @@ class OkGradleDialog(val interactor: SearchArtifactInteractor) : DialogWrapper(f
         add(JLabel("?)"))
     }
 
-    private val tutorialHint = LinkLabel<Any>("try me!", null)
-
-    private val libraryQuery = JTextField()
-    private val resultArea = JTextArea(3, 80).apply {
-        isEditable = false
+    private val libraryQuery = HintTextField().apply {
+        hint = "try typing \'retrofit\'"
+        onKeyPress(KeyEvent.VK_DOWN) {
+            transferFocus()
+            resultList.selectedIndex = 0
+        }
     }
-    private val copyButton = LinkLabel<Any>(" ", null)
 
-    private var job: Job? = null
-    private var result: SearchResult = SearchResult()
+    private val resultsListModel = ArtifactListModel()
+    private val resultList = JBList(resultsListModel).apply {
+        selectionMode = ListSelectionModel.SINGLE_SELECTION
+        visibleRowCount = -1
+    }
+
+    override fun displayError(throwable: Throwable) {
+        logger.warn(throwable.message)
+    }
+
+    override fun enableButtons(isEnabled: Boolean) {
+        addDependencyButton.isEnabled = isEnabled
+        clipboardCopyButton.isEnabled = isEnabled
+    }
+
+    private val clipboardCopyButton = JButton().apply {
+        text = Copys.COPY_TO_CLIPBOARD_ACTION
+        isEnabled = false
+        addActionListener { presenter.onCopyToClipboardClick() }
+    }
+
+    private val addDependencyButton = JButton().apply {
+        text = Copys.ADD_DEPENDENCY_ACTION
+        isEnabled = false
+        addActionListener { presenter.onAddDependencyClicked() }
+    }
 
     init {
         init()
-        title = "OK, Gradle!"
+        title = Copys.TITLE
+    }
+
+    override fun show() {
+        presenter.takeView(this)
+        super.show()
+    }
+
+    override fun dispose() {
+        presenter.dropView()
+        super.dispose()
     }
 
     override fun createCenterPanel(): JComponent {
@@ -59,81 +95,78 @@ class OkGradleDialog(val interactor: SearchArtifactInteractor) : DialogWrapper(f
         val panel = JPanel(VerticalLayout(8))
         panel.add(
                 JPanel(HorizontalLayout(8)).apply {
-                    add(JLabel("Which library you need?"))
+                    add(JLabel(Copys.PROMPT_HEADER))
                     add(hintPanel)
-                    add(tutorialHint)
                 }
         )
+
         panel.add(libraryQuery)
-        panel.add(JLabel("Put this in your build.gradle file:"))
-        panel.add(resultArea)
-        panel.add(copyButton)
+        panel.add(JLabel(Copys.RESULT_LIST_TITLE))
+        val scrollPane = JBScrollPane(resultList)
+        scrollPane.preferredSize = Dimension(500, 200)
+        panel.add(scrollPane)
+        panel.add(
+                JPanel(HorizontalLayout(8)).apply {
+                    add(clipboardCopyButton)
+                    add(addDependencyButton)
+                }
+        )
+        val tip = Copys.TIP.format(Copys.TIPS.shuffled().first())
+        panel.add(
+                JLabel(tip).also {
+                    it.foreground = it.foreground.transparent(123)
+                    it.font = Font(it.font.name, it.font.style, it.font.size - 2)
+                }
+        )
         return panel
+    }
+
+    override fun getPreferredFocusedComponent() = libraryQuery
+
+    override fun createActions(): Array<Action> = emptyArray()
+
+    override fun userTextInputObservable(): Observable<String> = libraryQuery.observeText()
+
+    override fun userArtifactSelectionObservable(): Observable<Selection<Artifact>> =
+            resultList.observeSelection()
+                    .doOnNext { registerResultListKeyListener() }
+
+    private fun registerResultListKeyListener() {
+        resultList.singleOnKeyPress(KeyEvent.VK_ENTER) {
+            presenter.onAddDependencyClicked()
+        }
+    }
+
+    override fun displayModules(modules: List<Module>) {
+        val menu = JPopupMenu(Copys.MODULES_TITLE)
+        menu.add(Copys.MODULES_TITLE).also {
+            it.isEnabled = false
+        }
+        modules.forEach {
+            menu.add(it.name).addActionListener { _ ->
+                presenter.onModuleSelected(it)
+            }
+        }
+        with(addDependencyButton) {
+            menu.addPopupMenuListener(object : PopupMenuListenerAdapter() {
+                override fun popupMenuCanceled(e: PopupMenuEvent?) {
+                    registerResultListKeyListener()
+                }
+            })
+            menu.show(this, this.x, this.y)
+            menu.invokeKeyDownPress()
+        }
     }
 
     private fun configureViews() {
         hideSuggestion()
-        showClipboardButton(false)
-        copyButton.setListener({ _, _ -> onCopyToClipboardClick() }, null)
-        libraryQuery.document.addDocumentListener(object : SimpleDocumentListener() {
-            override fun update(e: DocumentEvent?) {
-                showClipboardButton(false)
-                hideSuggestion()
-                showProgress()
-                job?.cancel()
-                job = launch(Swing) {
-                    delay(SEARCH_START_DELAY_IN_MILLIS)
-                    result = interactor.search(libraryQuery.text)
-                    if (result.error != null) {
-                        displayError(result.error)
-                    } else {
-                        when (result.artifact) {
-                            null -> showNoResultsFoundMessage()
-                            else -> showResults(result.artifact as String) //todo: avoid smartcast
-                        }
-                    }
-                    result.suggestion?.let {
-                        showSuggestion(it)
-                    }
-                }
-            }
-        })
-        tutorialHint.setListener({ _, _ ->
-            libraryQuery.text = "retrofit "
-            tutorialHint.isVisible = false
-        }, null)
     }
 
-    private fun displayError(error: Exception?) {
-        resultArea.text = "${error?.javaClass?.name}:${error?.message}"
+    override fun showArtifacts(artifacts: List<Artifact>) {
+        resultsListModel.addAll(artifacts)
     }
 
-    private fun onCopyToClipboardClick() {
-        CopyPasteManager.getInstance().setContents(TextTransferable("implementation '${result.artifact}'"))
-    }
-
-    private fun showProgress() {
-        resultArea.text = wrapAsDependencyExample("...")
-    }
-
-    private fun showNoResultsFoundMessage() {
-        resultArea.text = "No results found :("
-    }
-
-    private fun showResults(artifact: String) {
-        resultArea.text = wrapAsDependencyExample(artifact)
-        showClipboardButton(true)
-    }
-
-    private fun wrapAsDependencyExample(artifact: String): String {
-        val builder = StringBuilder()
-        builder.append("dependencies {\n")
-        builder.append("    implementation '$artifact'\n")
-        builder.append("}")
-        return builder.toString()
-    }
-
-    private fun showSuggestion(suggestion: String) {
+    override fun showSuggestion(suggestion: String) {
         hintLink.text = suggestion
         hintPanel.isVisible = true
     }
@@ -142,16 +175,13 @@ class OkGradleDialog(val interactor: SearchArtifactInteractor) : DialogWrapper(f
         hintPanel.isVisible = false
     }
 
-    private fun showClipboardButton(isVisible: Boolean) {
-        when (isVisible) {
-            true -> copyButton.text = "Copy result to clipboard"
-            false -> copyButton.text = " "
-        }
+    override fun resetListState() {
+        resultList.clearSelection()
+        resultsListModel.clear()
+        hideSuggestion()
     }
 
-    override fun getPreferredFocusedComponent(): JComponent? {
-        return libraryQuery
+    override fun fillSearchPhrase(searchPhrase: String) {
+        libraryQuery.text = searchPhrase
     }
-
-    override fun createActions() = arrayOf(okAction)
 }

@@ -4,7 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
-import me.scana.okgradle.data.Spellcheck
+import me.scana.okgradle.data.repository.Spellcheck
+import me.scana.okgradle.data.repository.SpellcheckDeserializer
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.lang.reflect.Type

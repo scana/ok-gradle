@@ -1,10 +1,8 @@
-package me.scana.okgradle.data.json
+package me.scana.okgradle.data.repository
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import me.scana.okgradle.data.Spellcheck
-import me.scana.okgradle.data.SpellcheckSuggestion
 import java.lang.reflect.Type
 
 class SpellcheckDeserializer : JsonDeserializer<Spellcheck> {
