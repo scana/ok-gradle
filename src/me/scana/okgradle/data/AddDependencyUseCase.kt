@@ -13,6 +13,10 @@ import com.intellij.util.ui.TextTransferable
 import me.scana.okgradle.data.repository.Artifact
 import me.scana.okgradle.util.Notifier
 
+const val JAVA_ANNOTATION_PROCESSOR = "annotationProcessor"
+const val KOTLIN_ANNOTATION_PROCESSOR = "kapt"
+const val KOTLIN_KAPT_PLUGIN = "kotlin-kapt"
+
 class AddDependencyUseCase(
         private val project: Project,
         private val notifier: Notifier
@@ -24,7 +28,13 @@ class AddDependencyUseCase(
             val gradleBuildModel = GradleBuildModel.parseBuildFile(gradleFile, project, module.name)
             val dependencies = gradleBuildModel.dependencies()
             val dependencySpec = ArtifactDependencySpec.create(artifact.name, artifact.groupId, artifact.version)
-            val dependencyStrategy = AddDependencyStrategyFactory().create(dependencySpec)
+            val dependencyStrategy = AddDependencyStrategyFactory(
+                    if (hasKotlinKaptSupport(gradleBuildModel)) {
+                        KOTLIN_ANNOTATION_PROCESSOR
+                    } else {
+                        JAVA_ANNOTATION_PROCESSOR
+                    }
+            ).create(dependencySpec)
             WriteCommandAction.runWriteCommandAction(project) {
                 val addedDependencies = dependencyStrategy.addDependency(dependencySpec, dependencies)
                 gradleBuildModel.applyChanges()
@@ -43,5 +53,10 @@ class AddDependencyUseCase(
         CopyPasteManager.getInstance().setContents(TextTransferable(dependencyStrategy.getDependencyStatements(dependencySpec).joinToString("\n")))
         notifier.showDependenciesStatementCopiedMessage()
     }
+
+    private fun hasKotlinKaptSupport(gradleBuildModel: GradleBuildModel): Boolean =
+            gradleBuildModel.appliedPlugins().any {
+                it.value() == KOTLIN_KAPT_PLUGIN
+            }
 
 }
