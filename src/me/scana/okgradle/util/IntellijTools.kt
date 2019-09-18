@@ -16,7 +16,7 @@ class IntellijTools(private val project: Project) {
 
     private fun List<Module>.withSourceOnly(): List<Module> {
         return this.filter {
-            val scope = it.moduleScope
+            val scope = it.getModuleWithDependenciesAndLibrariesScope(false)
             return@filter scope is ModuleWithDependenciesScope && scope.roots.isNotEmpty()
         }
     }
