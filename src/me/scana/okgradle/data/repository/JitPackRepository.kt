@@ -4,12 +4,13 @@ import com.google.gson.Gson
 import io.reactivex.Single
 import me.scana.okgradle.util.fromJson
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
 
 class JitPackRepository(private val networkClient: NetworkClient, private val gson: Gson) : ArtifactRepository {
 
     companion object {
-        val JITPACK_URL: HttpUrl = HttpUrl.get("https://jitpack.io/api/search")
+        val JITPACK_URL: HttpUrl = "https://jitpack.io/api/search".toHttpUrl()
     }
 
     override fun search(query: String): Single<SearchResult> {

@@ -3,12 +3,13 @@ package me.scana.okgradle.data.repository
 import com.google.gson.Gson
 import io.reactivex.Single
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
 
 class MavenRepository(private val networkClient: NetworkClient, private val gson: Gson) : ArtifactRepository {
 
     companion object {
-        val MAVEN_URL: HttpUrl = HttpUrl.get("http://search.maven.org/solrsearch/select")
+        val MAVEN_URL: HttpUrl = "http://search.maven.org/solrsearch/select".toHttpUrl()
     }
 
     override fun search(query: String): Single<SearchResult> {

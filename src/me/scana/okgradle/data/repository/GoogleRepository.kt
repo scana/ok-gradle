@@ -2,6 +2,7 @@ package me.scana.okgradle.data.repository
 
 import io.reactivex.Single
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
 import javax.xml.stream.XMLInputFactory
 
@@ -64,7 +65,7 @@ class GoogleRepository(private val networkClient: NetworkClient) : ArtifactRepos
     }
 
     companion object {
-        val GOOGLE_MAVEN_URL = HttpUrl.parse("https://dl.google.com/dl/android/maven2/")!!
+        val GOOGLE_MAVEN_URL = "https://dl.google.com/dl/android/maven2/".toHttpUrl()
 
         const val MAVEN_METADATA = "maven-metadata.xml"
         const val MAVEN_METADATA_VERSION = "release"

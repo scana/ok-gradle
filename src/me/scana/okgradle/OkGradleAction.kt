@@ -3,7 +3,7 @@ package me.scana.okgradle
 import com.google.gson.GsonBuilder
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.DataKeys
+import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
 import me.scana.okgradle.data.AddDependencyUseCase
 import me.scana.okgradle.data.SearchArtifactsUseCase
@@ -25,7 +25,7 @@ class OkGradleAction : AnAction() {
                 "JitPack" to JitPackRepository(networkClient, gson)
         )
         val searchUseCase = SearchArtifactsUseCase(repositories)
-        val project = event.getData(DataKeys.PROJECT) as Project
+        val project = event.getData(CommonDataKeys.PROJECT) as Project
         val notifier = Notifier(project)
         val addDependencyUseCase = AddDependencyUseCase(project, notifier)
         val intellijTools = IntellijTools(project)

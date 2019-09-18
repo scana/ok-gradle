@@ -11,10 +11,10 @@ class NetworkClient(private val okHttpClient: OkHttpClient) {
         try {
             val response = okHttpClient.newCall(request).execute()
             if (!response.isSuccessful) {
-                return NetworkResult.Failure(HttpException(response.code(), response.message()))
+                return NetworkResult.Failure(HttpException(response.code, response.message))
             }
             return try {
-                val result = response.body()!!.use(parse)
+                val result = response.body!!.use(parse)
                 NetworkResult.Success(result)
             } catch (exception: Exception) {
                 NetworkResult.Failure(ResponseParseException(exception))

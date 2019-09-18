@@ -40,7 +40,7 @@ class AddDependencyUseCase(
     fun copyToClipboard(artifact: Artifact) {
         val dependencySpec = ArtifactDependencySpec.create(artifact.name, artifact.groupId, artifact.version)
         val dependencyStrategy = AddDependencyStrategyFactory().create(dependencySpec)
-        CopyPasteManager.getInstance().setContents(TextTransferable(dependencyStrategy.getDependencyStatements(dependencySpec).joinToString("\n")))
+        CopyPasteManager.getInstance().setContents(TextTransferable(dependencyStrategy.getDependencyStatements(dependencySpec).joinToString("\n") as CharSequence))
         notifier.showDependenciesStatementCopiedMessage()
     }
 
