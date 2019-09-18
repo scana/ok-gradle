@@ -83,7 +83,8 @@ class OkGradleDialogPresenter(
     }
 
     override fun onAddDependencyClicked() {
-        view?.displayModules(intellijTools.getModules())
+        val modules = intellijTools.getModules().sortedBy { it.name }
+        view?.displayModules(modules)
     }
 
     override fun onModuleSelected(module: Module) {
