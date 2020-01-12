@@ -5,7 +5,7 @@ import javax.swing.AbstractListModel
 
 class ArtifactListModel : AbstractListModel<Artifact>() {
 
-    private val artifacts = mutableListOf<Artifact>()
+    private val artifacts = LinkedHashSet<Artifact>()
 
     fun add(element: Artifact) {
         artifacts.add(element)
@@ -16,7 +16,7 @@ class ArtifactListModel : AbstractListModel<Artifact>() {
     fun addAll(elements: List<Artifact>) {
         val previousSize = artifacts.size
         artifacts.addAll(elements)
-        fireIntervalAdded(this, previousSize, previousSize + elements.size)
+        fireIntervalAdded(this, previousSize, previousSize + artifacts.size)
     }
 
     fun clear() {
@@ -25,7 +25,7 @@ class ArtifactListModel : AbstractListModel<Artifact>() {
     }
 
     override fun getElementAt(index: Int): Artifact {
-        return artifacts[index]
+        return artifacts.elementAt(index)
     }
 
     override fun getSize(): Int {
