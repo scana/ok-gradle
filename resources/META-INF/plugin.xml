@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>me.scana.okgradle</id>
     <name>OK, Gradle!</name>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
     <vendor email="scanarch@gmail.com" url="http://github.com/scana">Marcin Robaczyński</vendor>
 
     <description><![CDATA[
@@ -37,7 +37,7 @@
 
     <change-notes><![CDATA[
       <p>
-        0.2.0
+        0.2.1
         <ul>
           <li>New: support for Bintray repository added (now commons-io:commons-io can be found, thanks to Brohacz)</li>
           <li>Fix: duplicated artifacts are no longer displayed</li>        
