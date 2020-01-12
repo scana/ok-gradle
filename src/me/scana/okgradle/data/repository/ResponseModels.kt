@@ -10,3 +10,5 @@ data class Doc(val g: String, val a: String, val latestVersion: String)
 
 data class Spellcheck(val suggestions: List<SpellcheckSuggestion>)
 data class SpellcheckSuggestion(val suggestion: List<String>)
+
+data class BintrayResult(val name: String, val versions: List<String>)

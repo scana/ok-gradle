@@ -22,7 +22,8 @@ class OkGradleAction : AnAction() {
         val repositories = mapOf(
                 "Google" to GoogleRepository(networkClient),
                 "Maven" to MavenRepository(networkClient, gson),
-                "JitPack" to JitPackRepository(networkClient, gson)
+                "JitPack" to JitPackRepository(networkClient, gson),
+                "Bintray" to BintrayRepository(networkClient, gson)
         )
         val searchUseCase = SearchArtifactsUseCase(repositories)
         val project = event.getData(CommonDataKeys.PROJECT) as Project
