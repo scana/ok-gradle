@@ -1,11 +1,13 @@
 package me.scana.okgradle.data
 
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.ResponseBody.Companion.toResponseBody
 
 class TestInterceptor : Interceptor {
 
     var recentRequest: Request? = null
-    private var response: Response = buildResponse(ResponseBody.create(MediaType.get("text/plain"), ""))
+    private var response: Response = buildResponse("".toResponseBody("text/plain".toMediaType()))
 
     override fun intercept(chain: Interceptor.Chain): Response {
         recentRequest = chain.request()
@@ -14,7 +16,7 @@ class TestInterceptor : Interceptor {
 
     fun returnsJson(json: String) {
         val body = ResponseBody.create(
-                MediaType.get("application/json"),
+                "application/json".toMediaType(),
                 json
         )
         response = buildResponse(body)

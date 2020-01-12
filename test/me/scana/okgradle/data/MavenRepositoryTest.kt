@@ -28,11 +28,11 @@ class MavenRepositoryTest {
         val request = mockOkHttpClient.recentRequest()
         assertEquals(
                 "GET",
-                request?.method()
+                request?.method
         )
         assertEquals(
                 "http://search.maven.org/solrsearch/select?q=my_awesome_query",
-                request?.url()?.toString()
+                request?.url?.toString()
         )
     }
 
