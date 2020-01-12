@@ -42,7 +42,7 @@ I want to thank <a href="https://chrisbroadfoot.id.au">Chris Broadfoot</a> for c
 
 ## License
 ```
-Copyright 2017 Marcin Robaczyński
+Copyright 2019 Marcin Robaczyński
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

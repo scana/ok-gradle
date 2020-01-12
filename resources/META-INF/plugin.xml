@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>me.scana.okgradle</id>
     <name>OK, Gradle!</name>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <vendor email="scanarch@gmail.com" url="http://github.com/scana">Marcin Robaczyński</vendor>
 
     <description><![CDATA[
@@ -36,25 +36,39 @@
     </description>
 
     <change-notes><![CDATA[
-      <em>0.1.0<em>
-      <br/> - artifacts can now be automatically added to a selected module!
-      <br/> - multiple artifacts are now being listed
-      <br/> - support for some of artifacts that contain annotation processors
-      <br/> - notifications added
-      <br/> - few useful shortcuts added (see the tips!)
-      <br/> - tips added
-      <br/> - lots of stability fixes - please report if you encounter anything weird
-      <br/>
-      <br/>
-      <em>0.0.2<em>
-      <br/> - support for JitPack repository (thanks to @babedev)
-      <br/> - using <code>implementation</code> instead of <code>compile</code> statements
-      <br/> - copy to clipboard button now copies the whole statement instead of just an artifact
-      <br/>
-      <br/>
-      <em>0.0.1<em>
-      <br/>
-      First release - support for searching maven.org and maven.google.com repositories
+      <p>
+        0.2.0
+        <ul>
+          <li>New: support for Bintray repository added (now commons-io:commons-io can be found, thanks to Brohacz)</li>
+          <li>Fix: duplicated artifacts are no longer displayed</li>        
+        </ul>
+      </p>
+      <p>      
+        0.1.0
+        <ul>
+          <li>artifacts can now be automatically added to a selected module!</li>
+          <li>multiple artifacts are now being listed</li>
+          <li>support for some of artifacts that contain annotation processors</li>
+          <li>notifications added</li>
+          <li>few useful shortcuts added (see the tips!)</li>
+          <li>tips added</li>
+          <li>lots of stability fixes - please report if you encounter anything weird</li>
+        </ul>
+      </p>
+      <p>
+        0.0.2
+        <ul>
+          <li>support for JitPack repository (thanks to @babedev)</li>
+          <li>using <code>implementation</code> instead of <code>compile</code> statements</li>
+          <li>copy to clipboard button now copies the whole statement instead of just an artifact</li>
+        </ul>
+      </p>  
+      <p>
+        0.0.1      
+        <ul>
+          <li>First release - support for searching maven.org and maven.google.com repositories</li>
+        </ul>
+      </p>      
     ]]>
     </change-notes>
 

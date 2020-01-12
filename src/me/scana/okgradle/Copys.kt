@@ -16,7 +16,8 @@ class Copys {
         const val TIP = "Tip: %s"
         val TIPS = listOf(
                 "Press down key after typing a search phrase to jump to the list directly",
-                "Press enter after selecting an artifact from the list to automatically add it"
+                "Press enter after selecting an artifact from the list to automatically add it",
+                "Some repositories might take longer to search through - give it a while"
         )
     }
 }
