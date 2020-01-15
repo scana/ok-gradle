@@ -1,8 +1,8 @@
 package me.scana.okgradle.data
 
 import com.android.SdkConstants
-import com.android.tools.idea.gradle.dsl.api.ProjectBuildModel
-import com.android.tools.idea.gradle.dsl.api.dependencies.ArtifactDependencySpec
+import me.scana.okgradle.internal.dsl.api.ProjectBuildModel
+import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencySpec
 import com.android.tools.idea.gradle.util.GradleUtil
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.ide.CopyPasteManager

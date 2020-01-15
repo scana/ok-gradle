@@ -1,8 +1,8 @@
 package me.scana.okgradle.data
 
-import com.android.tools.idea.gradle.dsl.api.dependencies.ArtifactDependencySpec
-import com.android.tools.idea.gradle.dsl.api.dependencies.CommonConfigurationNames
-import com.android.tools.idea.gradle.dsl.api.dependencies.DependenciesModel
+import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencySpec
+import me.scana.okgradle.internal.dsl.api.dependencies.CommonConfigurationNames
+import me.scana.okgradle.internal.dsl.api.dependencies.DependenciesModel
 
 const val ANNOTATION_PROCESSOR = "annotationProcessor"
 
