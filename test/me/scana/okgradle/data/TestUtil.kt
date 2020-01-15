@@ -15,10 +15,7 @@ class TestInterceptor : Interceptor {
     }
 
     fun returnsJson(json: String) {
-        val body = ResponseBody.create(
-                "application/json".toMediaType(),
-                json
-        )
+        val body = json.toResponseBody("application/json".toMediaType())
         response = buildResponse(body)
     }
 
