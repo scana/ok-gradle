@@ -4,17 +4,19 @@ import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencySpec
 import me.scana.okgradle.internal.dsl.api.dependencies.CommonConfigurationNames
 import me.scana.okgradle.internal.dsl.api.dependencies.DependenciesModel
 
-const val ANNOTATION_PROCESSOR = "annotationProcessor"
+
+private const val ANNOTATION_PROCESSOR = "annotationProcessor"
+private const val KAPT = "kapt"
 
 interface AddDependencyStrategy {
     fun addDependency(dependencySpec: ArtifactDependencySpec, model: DependenciesModel): List<String>
     fun getDependencyStatements(dependencySpec: ArtifactDependencySpec): List<String>
 }
 
-class AddDependencyStrategyFactory {
+object AddDependencyStrategyFactory {
 
-    fun create(dependencySpec: ArtifactDependencySpec) = when {
-        dependencySpec.hasAnnotationProcessor() -> AnnotationProcessorDependencyStrategy()
+    fun create(dependencySpec: ArtifactDependencySpec, withKotlinKaptSupport: Boolean) = when {
+        dependencySpec.hasAnnotationProcessor() -> AnnotationProcessorDependencyStrategy(withKotlinKaptSupport)
         else -> RegularAddDependencyStrategy()
     }
 }
@@ -29,7 +31,7 @@ class RegularAddDependencyStrategy : AddDependencyStrategy {
         return listOf("${CommonConfigurationNames.IMPLEMENTATION} '${dependencySpec.compactNotation()}'")
     }
 }
-class AnnotationProcessorDependencyStrategy : AddDependencyStrategy {
+class AnnotationProcessorDependencyStrategy(private val usesKotlinKapt: Boolean) : AddDependencyStrategy {
     override fun addDependency(dependencySpec: ArtifactDependencySpec, model: DependenciesModel): List<String> {
         val result = mutableListOf<String>()
         model.addArtifactCompat(CommonConfigurationNames.IMPLEMENTATION, dependencySpec)
@@ -37,7 +39,12 @@ class AnnotationProcessorDependencyStrategy : AddDependencyStrategy {
         val compilerName = dependencySpec.annotationProcessorName()
         compilerName?.let {
             val annotationProcessorSpec = ArtifactDependencySpec.create(it, dependencySpec.group, dependencySpec.version)
-            model.addArtifactCompat(ANNOTATION_PROCESSOR, annotationProcessorSpec)
+            val configurationName = if (usesKotlinKapt) {
+                KAPT
+            } else {
+                ANNOTATION_PROCESSOR
+            }
+            model.addArtifactCompat(configurationName, annotationProcessorSpec)
             result.add(annotationProcessorSpec.compactNotation())
         }
         return result

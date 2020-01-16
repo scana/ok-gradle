@@ -13,7 +13,10 @@ import com.intellij.psi.PsiManager
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.util.ui.TextTransferable
 import me.scana.okgradle.data.repository.Artifact
+import me.scana.okgradle.internal.dsl.api.GradleBuildModel
 import me.scana.okgradle.util.Notifier
+
+private const val KAPT_PLUGIN = "kotlin-kapt"
 
 class AddDependencyUseCase(
         private val project: Project,
@@ -26,7 +29,10 @@ class AddDependencyUseCase(
             val gradleBuildModel = ProjectBuildModel.get(project).getModuleBuildModel(gradleFile)
             val dependencies = gradleBuildModel.dependencies()
             val dependencySpec = ArtifactDependencySpec.create(artifact.name, artifact.groupId, artifact.version)
-            val dependencyStrategy = AddDependencyStrategyFactory().create(dependencySpec)
+            val dependencyStrategy = AddDependencyStrategyFactory.create(
+                    dependencySpec,
+                    withKotlinKaptSupport = gradleBuildModel.usesKotlinKapt
+            )
             WriteCommandAction.runWriteCommandAction(project) {
                 val addedDependencies = dependencyStrategy.addDependency(dependencySpec, dependencies)
                 gradleBuildModel.applyChanges()
@@ -41,7 +47,7 @@ class AddDependencyUseCase(
 
     fun copyToClipboard(artifact: Artifact) {
         val dependencySpec = ArtifactDependencySpec.create(artifact.name, artifact.groupId, artifact.version)
-        val dependencyStrategy = AddDependencyStrategyFactory().create(dependencySpec)
+        val dependencyStrategy = AddDependencyStrategyFactory.create(dependencySpec, withKotlinKaptSupport = false)
         CopyPasteManager.getInstance().setContents(TextTransferable(dependencyStrategy.getDependencyStatements(dependencySpec).joinToString("\n") as String?))
         notifier.showDependenciesStatementCopiedMessage()
     }
@@ -50,5 +56,8 @@ class AddDependencyUseCase(
         val buildGradleFile = GradleUtil.getGradleBuildFile(module)
         return buildGradleFile ?: module.moduleFile?.parent?.findChild(SdkConstants.FN_BUILD_GRADLE_KTS)
     }
+
+    private val GradleBuildModel.usesKotlinKapt: Boolean
+        get() = plugins().any { it.name().forceString() == KAPT_PLUGIN }
 
 }
