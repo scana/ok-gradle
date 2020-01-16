@@ -20,12 +20,7 @@ import me.scana.okgradle.internal.dsl.api.ext.PropertyType;
 import me.scana.okgradle.internal.dsl.model.notifications.NotificationTypeReference;
 import me.scana.okgradle.internal.dsl.parser.GradleReferenceInjection;
 import me.scana.okgradle.internal.dsl.parser.ModificationAware;
-import me.scana.okgradle.internal.dsl.parser.build.BuildScriptDslElement;
-import me.scana.okgradle.internal.dsl.parser.elements.GradleDslClosure;
-import me.scana.okgradle.internal.dsl.parser.elements.GradleDslElement;
-import me.scana.okgradle.internal.dsl.parser.elements.GradleDslSimpleExpression;
-import me.scana.okgradle.internal.dsl.parser.elements.GradleNameElement;
-import me.scana.okgradle.internal.dsl.parser.elements.GradlePropertiesDslElement;
+import me.scana.okgradle.internal.dsl.parser.buildscript.BuildScriptDslElement;
 import me.scana.okgradle.internal.dsl.parser.ext.ExtDslElement;
 import me.scana.okgradle.internal.dsl.parser.files.GradleDslFile;
 import com.google.common.collect.ImmutableList;
@@ -39,7 +34,7 @@ import java.util.*;
 
 import static me.scana.okgradle.internal.dsl.api.ext.PropertyType.DERIVED;
 import static me.scana.okgradle.internal.dsl.model.ext.PropertyUtil.isNonExpressionPropertiesElement;
-import static me.scana.okgradle.internal.dsl.parser.build.BuildScriptDslElement.*;
+import static me.scana.okgradle.internal.dsl.parser.buildscript.BuildScriptDslElement.*;
 import static me.scana.okgradle.internal.dsl.parser.ext.ExtDslElement.EXT_BLOCK_NAME;
 
 public abstract class GradleDslElementImpl implements me.scana.okgradle.internal.dsl.parser.elements.GradleDslElement, ModificationAware {

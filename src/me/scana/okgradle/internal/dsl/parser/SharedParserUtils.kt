@@ -71,10 +71,10 @@ import me.scana.okgradle.internal.dsl.parser.android.testOptions.UnitTestsDslEle
 import me.scana.okgradle.internal.dsl.parser.android.testOptions.UnitTestsDslElement.UNIT_TESTS_BLOCK_NAME
 import me.scana.okgradle.internal.dsl.parser.apply.ApplyDslElement
 import me.scana.okgradle.internal.dsl.parser.apply.ApplyDslElement.APPLY_BLOCK_NAME
-import me.scana.okgradle.internal.dsl.parser.build.BuildScriptDslElement
-import me.scana.okgradle.internal.dsl.parser.build.BuildScriptDslElement.BUILDSCRIPT_BLOCK_NAME
-import me.scana.okgradle.internal.dsl.parser.build.SubProjectsDslElement
-import me.scana.okgradle.internal.dsl.parser.build.SubProjectsDslElement.SUBPROJECTS_BLOCK_NAME
+import me.scana.okgradle.internal.dsl.parser.buildscript.BuildScriptDslElement
+import me.scana.okgradle.internal.dsl.parser.buildscript.BuildScriptDslElement.BUILDSCRIPT_BLOCK_NAME
+import me.scana.okgradle.internal.dsl.parser.buildscript.SubProjectsDslElement
+import me.scana.okgradle.internal.dsl.parser.buildscript.SubProjectsDslElement.SUBPROJECTS_BLOCK_NAME
 import me.scana.okgradle.internal.dsl.parser.configurations.ConfigurationDslElement
 import me.scana.okgradle.internal.dsl.parser.configurations.ConfigurationsDslElement
 import me.scana.okgradle.internal.dsl.parser.configurations.ConfigurationsDslElement.CONFIGURATIONS_BLOCK_NAME
