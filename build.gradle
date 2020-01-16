@@ -38,8 +38,8 @@ sourceSets {
 
 intellij {
     updateSinceUntilBuild false
-    plugins = ["android", "Groovy", "Gradle"]
-    version = "IU-182.5262.2"
+    plugins = ["java", "android", "Groovy", "Gradle"]
+    version = "IC-192.7142.36"
 }
 
 repositories {
