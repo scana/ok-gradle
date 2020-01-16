@@ -81,7 +81,7 @@ class ProjectBuildModelHandler(val project: Project) {
    * Returns the [ProjectBuildModel], refreshes it if it falls out of date.
    */
   private fun projectModel(): ProjectBuildModel {
-    val lastKnownSyncTime = 0L
+    val lastKnownSyncTime = -1L
 
     return projectBuildModel?.takeUnless {
       GradleFiles.getInstance(project).areGradleFilesModified() || modelSyncTime != lastKnownSyncTime
