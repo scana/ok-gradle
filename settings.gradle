@@ -1,1 +1,1 @@
-rootProject.name = 'ok-gradle'
+include ":ok-gradle-plugin"
