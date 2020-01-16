@@ -43,32 +43,6 @@
           <li>Fix: duplicated artifacts are no longer displayed</li>        
         </ul>
       </p>
-      <p>      
-        0.1.0
-        <ul>
-          <li>artifacts can now be automatically added to a selected module!</li>
-          <li>multiple artifacts are now being listed</li>
-          <li>support for some of artifacts that contain annotation processors</li>
-          <li>notifications added</li>
-          <li>few useful shortcuts added (see the tips!)</li>
-          <li>tips added</li>
-          <li>lots of stability fixes - please report if you encounter anything weird</li>
-        </ul>
-      </p>
-      <p>
-        0.0.2
-        <ul>
-          <li>support for JitPack repository (thanks to @babedev)</li>
-          <li>using <code>implementation</code> instead of <code>compile</code> statements</li>
-          <li>copy to clipboard button now copies the whole statement instead of just an artifact</li>
-        </ul>
-      </p>  
-      <p>
-        0.0.1      
-        <ul>
-          <li>First release - support for searching maven.org and maven.google.com repositories</li>
-        </ul>
-      </p>      
     ]]>
     </change-notes>
 
