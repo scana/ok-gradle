@@ -46,7 +46,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="143.0"/>
+    <idea-version since-build="163.0"/>
 
     <actions>
         <action id="me.scana.okgradle.ok" class="me.scana.okgradle.OkGradleAction" text="OK, Gradle!"
