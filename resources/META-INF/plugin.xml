@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>me.scana.okgradle</id>
     <name>OK, Gradle!</name>
-    <version>0.2.1</version>
+    <version>0.3.0</version>
     <vendor email="scanarch@gmail.com" url="http://github.com/scana">Marcin Robaczyński</vendor>
 
     <description><![CDATA[
@@ -37,16 +37,18 @@
 
     <change-notes><![CDATA[
       <p>
-        0.2.1
+        0.3.0
         <ul>
           <li>New: support for Bintray repository added (now commons-io:commons-io can be found, thanks to Brohacz)</li>
-          <li>Fix: duplicated artifacts are no longer displayed</li>        
+          <li>New: omit modules with build.gradle.kts files (support for those is on its way!)
+          <li>New: support kotlin-kapt configuration name for annotation processors (thanks to @DVDAndroid)
+          <li>Fix: duplicated artifacts are no longer displayed on the list</li>
         </ul>
       </p>
     ]]>
     </change-notes>
 
-    <idea-version since-build="163.0"/>
+    <idea-version since-build="182.0"/>
 
     <actions>
         <action id="me.scana.okgradle.ok" class="me.scana.okgradle.OkGradleAction" text="OK, Gradle!"
@@ -57,5 +59,7 @@
 
     <depends>com.intellij.modules.java</depends>
     <depends>org.jetbrains.android</depends>
+    <depends>org.intellij.groovy</depends>
+    <depends>org.jetbrains.plugins.gradle</depends>
 
 </idea-plugin>
