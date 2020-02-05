@@ -95,8 +95,12 @@ class OkGradleDialogPresenter(
     }
 
     override fun onAddDependencyClicked() {
-        val modules = intellijTools.getModules().sortedBy { it.name }
-        view?.displayModules(modules)
+        if (hasProject) {
+            val modules = intellijTools.getModules().sortedBy { it.name }
+            view?.displayModules(modules)
+        } else {
+            onCopyToClipboardClick()
+        }
     }
 
     override fun onModuleSelected(module: Module) {
