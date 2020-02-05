@@ -8,7 +8,7 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import me.scana.okgradle.Copys
 
-class Notifier(private val project: Project) {
+class Notifier(private val project: Project?) {
 
     private val notificationGroup = NotificationGroup(
             Copys.TITLE,
