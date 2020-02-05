@@ -53,9 +53,10 @@ class OkGradleDialog(private val presenter: OkGradle.Presenter) : DialogWrapper(
         logger.warn(throwable.message)
     }
 
-    override fun enableButtons(isEnabled: Boolean) {
-        addDependencyButton.isEnabled = isEnabled
-        clipboardCopyButton.isEnabled = isEnabled
+    override fun setUpButtons(allEnabled: Boolean, isAddDependencyVisible: Boolean) {
+        addDependencyButton.isEnabled = allEnabled
+        clipboardCopyButton.isEnabled = allEnabled
+        addDependencyButton.isVisible = isAddDependencyVisible
     }
 
     private val clipboardCopyButton = JButton().apply {

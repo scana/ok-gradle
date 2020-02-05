@@ -1,6 +1,7 @@
 package me.scana.okgradle
 
 import com.intellij.openapi.module.Module
+import com.intellij.openapi.project.Project
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import me.scana.okgradle.data.AddDependencyUseCase
@@ -12,6 +13,7 @@ import me.scana.okgradle.util.Selection
 import java.util.concurrent.TimeUnit
 
 class OkGradleDialogPresenter(
+        project: Project?,
         private val interactor: SearchArtifactsUseCase,
         private val addDependencyUseCase: AddDependencyUseCase,
         private val intellijTools: IntellijTools
@@ -22,10 +24,14 @@ class OkGradleDialogPresenter(
     private var selectedArtifact: Artifact? = null
     private var view: OkGradle.View? = null
     private val disposables = CompositeDisposable()
+    private val hasProject = project != null
 
     override fun takeView(view: OkGradle.View) {
         this.view = view
-        view.enableButtons(false)
+        view.setUpButtons(
+                allEnabled = false,
+                isAddDependencyVisible = hasProject
+        )
         observeInput(view)
         observeArtifactSelection(view)
     }
@@ -69,11 +75,17 @@ class OkGradleDialogPresenter(
     private fun onArtifactSelectionChanged(selection: Selection<Artifact>) = when(selection) {
         is Selection.Item -> {
             selectedArtifact = selection.value
-            view?.enableButtons(true)
+            view?.setUpButtons(
+                    allEnabled = true,
+                    isAddDependencyVisible = hasProject
+            )
         }
         is Selection.None -> {
             selectedArtifact = null
-            view?.enableButtons(false)
+            view?.setUpButtons(
+                    allEnabled = false,
+                    isAddDependencyVisible = hasProject
+            )
         }
     }
 

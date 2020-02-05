@@ -32,7 +32,7 @@ class OkGradleAction : AnAction() {
         val notifier = Notifier(project)
         val addDependencyUseCase = AddDependencyUseCaseFactory.create(project, notifier)
         val intellijTools = ToolsFactory.intellijTools(project)
-        val presenter = OkGradleDialogPresenter(searchUseCase, addDependencyUseCase, intellijTools)
+        val presenter = OkGradleDialogPresenter(project, searchUseCase, addDependencyUseCase, intellijTools)
 
         val dialog = OkGradleDialog(presenter)
         dialog.show()

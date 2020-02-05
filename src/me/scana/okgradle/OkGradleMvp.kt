@@ -13,7 +13,7 @@ interface OkGradle {
         fun userTextInputObservable(): Observable<String>
         fun userArtifactSelectionObservable(): Observable<Selection<Artifact>>
         fun displayModules(modules: List<Module>)
-        fun enableButtons(isEnabled: Boolean)
+        fun setUpButtons(allEnabled: Boolean, isAddDependencyVisible: Boolean)
         fun resetListState()
         fun displayError(throwable: Throwable)
         fun fillSearchPhrase(searchPhrase: String)
@@ -27,7 +27,5 @@ interface OkGradle {
         fun onModuleSelected(module: Module)
         fun onCopyToClipboardClick()
         fun onSuggestionClick(suggestion: String)
-
     }
-
 }
