@@ -5,6 +5,7 @@ import me.scana.okgradle.internal.dsl.api.ProjectBuildModel
 import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencySpec
 import com.android.tools.idea.gradle.util.GradleUtil
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.command.impl.DummyProject
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
@@ -18,12 +19,28 @@ import me.scana.okgradle.util.Notifier
 
 private const val KAPT_PLUGIN = "kotlin-kapt"
 
-class AddDependencyUseCase(
+object AddDependencyUseCaseFactory {
+    fun create(project: Project?, notifier: Notifier): AddDependencyUseCase {
+        return if (project != null) {
+            AddDependencyUseCaseImpl(project, notifier)
+        } else {
+            val copyImpl = AddDependencyUseCaseImpl(DummyProject.getInstance(), notifier)
+            CopyOnlyDependencyUseCase(copyImpl)
+        }
+    }
+}
+
+interface AddDependencyUseCase {
+    fun addDependency(module: Module, artifact: Artifact)
+    fun copyToClipboard(artifact: Artifact)
+}
+
+class AddDependencyUseCaseImpl(
         private val project: Project,
         private val notifier: Notifier
-) {
+) : AddDependencyUseCase {
 
-    fun addDependency(module: Module, artifact: Artifact) {
+    override fun addDependency(module: Module, artifact: Artifact) {
         val buildGradleFile = findGradleFile(module)
         buildGradleFile?.let { gradleFile ->
             val gradleBuildModel = ProjectBuildModel.get(project).getModuleBuildModel(gradleFile)
@@ -45,7 +62,7 @@ class AddDependencyUseCase(
         }
     }
 
-    fun copyToClipboard(artifact: Artifact) {
+    override fun copyToClipboard(artifact: Artifact) {
         val dependencySpec = ArtifactDependencySpec.create(artifact.name, artifact.groupId, artifact.version)
         val dependencyStrategy = AddDependencyStrategyFactory.create(dependencySpec, withKotlinKaptSupport = false)
         CopyPasteManager.getInstance().setContents(TextTransferable(dependencyStrategy.getDependencyStatements(dependencySpec).joinToString("\n") as String?))
@@ -59,5 +76,14 @@ class AddDependencyUseCase(
 
     private val GradleBuildModel.usesKotlinKapt: Boolean
         get() = plugins().any { it.name().forceString() == KAPT_PLUGIN }
-
 }
+
+class CopyOnlyDependencyUseCase(
+        private val addDependencyUseCase: AddDependencyUseCase
+) : AddDependencyUseCase by addDependencyUseCase {
+
+    override fun addDependency(module: Module, artifact: Artifact) {
+        // just a stub
+    }
+}
+

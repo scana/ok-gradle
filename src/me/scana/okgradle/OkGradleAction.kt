@@ -6,10 +6,12 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
 import me.scana.okgradle.data.AddDependencyUseCase
+import me.scana.okgradle.data.AddDependencyUseCaseFactory
 import me.scana.okgradle.data.SearchArtifactsUseCase
 import me.scana.okgradle.data.repository.*
 import me.scana.okgradle.util.IntellijTools
 import me.scana.okgradle.util.Notifier
+import me.scana.okgradle.util.ToolsFactory
 import okhttp3.OkHttpClient
 
 class OkGradleAction : AnAction() {
@@ -26,10 +28,10 @@ class OkGradleAction : AnAction() {
                 "Bintray" to BintrayRepository(networkClient, gson)
         )
         val searchUseCase = SearchArtifactsUseCase(repositories)
-        val project = event.getData(CommonDataKeys.PROJECT) as Project
+        val project = event.getData(CommonDataKeys.PROJECT)
         val notifier = Notifier(project)
-        val addDependencyUseCase = AddDependencyUseCase(project, notifier)
-        val intellijTools = IntellijTools(project)
+        val addDependencyUseCase = AddDependencyUseCaseFactory.create(project, notifier)
+        val intellijTools = ToolsFactory.intellijTools(project)
         val presenter = OkGradleDialogPresenter(searchUseCase, addDependencyUseCase, intellijTools)
 
         val dialog = OkGradleDialog(presenter)
