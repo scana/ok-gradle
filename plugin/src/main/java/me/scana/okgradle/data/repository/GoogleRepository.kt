@@ -1,7 +1,6 @@
 package me.scana.okgradle.data.repository
 
 import io.reactivex.Single
-import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
 import javax.xml.stream.XMLInputFactory
@@ -21,17 +20,20 @@ class GoogleRepository(private val networkClient: NetworkClient) : ArtifactRepos
     }
 
     private fun findArtifacts(query: String): SearchResult {
-        val requestedArtifacts = ARTIFACT_NAMES.filter { it.contains(query) }
-        requestedArtifacts.firstOrNull()?.let {
-            val version = getLatestVersion(it)
-            return SearchResult.Success(
-                    requestedArtifacts.map {
-                        val (groupId, name) = it.split(":".toRegex(), 2)
-                        Artifact(groupId, name, version)
+        val artifactIds = ARTIFACT_NAMES.filter { it.contains(query) }
+        val artifacts = artifactIds
+                .mapIndexed { index, artifactId ->
+                    // check version for only first couple of artifacts,
+                    // to avoid making too many requests at once
+                    val version = if (index < 10)  {
+                        getLatestVersion(artifactId)
+                    } else {
+                        "+"
                     }
-            )
-        }
-        return SearchResult.Success()
+                    val (groupId, name) = artifactId.split(":".toRegex(), 2)
+                    Artifact(groupId, name, version)
+                }
+        return SearchResult.Success(artifacts)
     }
 
     private fun getLatestVersion(artifactId: String): String {
