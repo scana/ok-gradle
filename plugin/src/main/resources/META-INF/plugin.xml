@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>me.scana.okgradle</id>
     <name>OK, Gradle!</name>
-    <version>0.3.1</version>
+    <version>0.4.0</version>
     <vendor email="scanarch@gmail.com" url="http://github.com/scana">Marcin Robaczyński</vendor>
 
     <description><![CDATA[
@@ -37,13 +37,10 @@
 
     <change-notes><![CDATA[
       <p>
-        0.3.1
+        0.4.0
         <ul>
-          <li>Fix (0.3.1): Allow plugin to run when there is no project currently opened</li>
-          <li>New: support for Bintray repository added (now commons-io:commons-io can be found, thanks to Brohacz)</li>
-          <li>New: omit modules with build.gradle.kts files (support for those is on its way!)
-          <li>New: support kotlin-kapt configuration name for annotation processors (thanks to @DVDAndroid)
-          <li>Fix: duplicated artifacts are no longer displayed on the list</li>
+          <li>Support AndroidX packages</li>
+          <li>Fix: properly find package version for artifacts from Google Repository</li>
         </ul>
       </p>
     ]]>
