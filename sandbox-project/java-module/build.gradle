@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+dependencies {
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.1'
+    testImplementation "junit:junit:4.12"
+}
+
+sourceCompatibility = '8'
+targetCompatibility = '8'
