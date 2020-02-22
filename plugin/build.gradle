@@ -7,7 +7,7 @@ apply plugin: 'kotlin'
 
 intellij {
     updateSinceUntilBuild false
-    plugins = ["java", "android", "Groovy", "gradle", "Kotlin"]
+    plugins = ["java", "Groovy", "gradle", "Kotlin"]
     version = "IC-192.7142.36"
 }
 
