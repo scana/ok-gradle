@@ -1,5 +1,7 @@
 package me.scana.okgradle.data
 
+import com.android.SdkConstants.DOT_GRADLE
+import com.android.SdkConstants.DOT_KTS
 import com.android.tools.idea.gradle.util.GradleUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
@@ -41,7 +43,7 @@ object CopyDependencyStrategy {
 object AddDependencyStrategyFactory {
 
     fun create(project: Project, gradleFile: VirtualFile, artifact: Artifact): AddDependencyStrategy {
-        return if (GradleUtil.isKtsFile(gradleFile)) {
+        return if (GradleUtilCompat.isKtsFile(gradleFile)) {
             GradleKtsAddDependencyStrategy(project, gradleFile, artifact)
         } else {
             GradleAddDependencyStrategy(project, gradleFile, artifact)
@@ -142,3 +144,27 @@ private fun DependenciesModel.addArtifactCompat(configurationName: String, depen
 
 private val GradleBuildModel.usesKotlinKapt: Boolean
     get() = plugins().any { it.name().forceString() == KAPT_PLUGIN }
+
+private object GradleUtilCompat {
+
+    fun isKtsFile(file: VirtualFile?): Boolean {
+        if (file == null) {
+            return false
+        }
+        val result: HashSet<String> = HashSet()
+        addBuildFileType(result, file)
+        return result.contains(DOT_KTS)
+    }
+
+    private fun addBuildFileType(result: HashSet<String>, buildFile: VirtualFile?) {
+        if (buildFile != null) {
+            var buildFileExtension = buildFile.extension ?: return
+            buildFileExtension = ".$buildFileExtension"
+            if (buildFileExtension.equals(DOT_GRADLE, ignoreCase = true)) {
+                result.add(DOT_GRADLE)
+            } else if (buildFileExtension.equals(DOT_KTS, ignoreCase = true)) {
+                result.add(DOT_KTS)
+            }
+        }
+    }
+}
