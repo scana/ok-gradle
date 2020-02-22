@@ -1,7 +1,7 @@
 
 <h1 align="center">Ok, Gradle!</h1>
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.4.0-blue"/>
+  <img src="https://img.shields.io/badge/version-0.5.0-blue"/>
   <img src="https://img.shields.io/github/workflow/status/scana/ok-gradle/Java%20CI"/>
 </p>
 
@@ -15,7 +15,7 @@ This plugin is in JetBrains Plugins Repository! Get it from [here](https://plugi
 
 IntelliJ/Android Studio Plugin for searching artifacts ids of popular Java libraries.
 
-Use those for adding new dependencies easily to your build.gradle files.
+Use those for adding new dependencies easily to your build.gradle/build.gradle.kts files.
 
 #### Retrofit - which one was it?
 ```

@@ -1,12 +1,12 @@
 <idea-plugin>
     <id>me.scana.okgradle</id>
     <name>OK, Gradle!</name>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
     <vendor email="scanarch@gmail.com" url="http://github.com/scana">Marcin Robaczyński</vendor>
 
     <description><![CDATA[
         Plugin for searching artifacts ids of popular Java libraries.<br/>
-        Use those for adding new dependencies easily to your build.gradle files.<br/>
+        Use those for adding new dependencies easily to your build.gradle/build.gradle.kts files.<br/>
         <br/>
         Retrofit! Was it:<br/>
         <pre>compile 'com.square.retrofit:retrofit2:2.3.0'</pre>
@@ -37,10 +37,10 @@
 
     <change-notes><![CDATA[
       <p>
-        0.4.0
+        0.5.0
         <ul>
-          <li>Support AndroidX packages</li>
-          <li>Fix: properly find package version for artifacts from Google Repository</li>
+          <li>New: Support for adding dependencies to build.gradle.kts (Kotlin script) files!</li>
+          <li>Fix: Properly support undo action</li>
         </ul>
       </p>
     ]]>
@@ -58,6 +58,7 @@
     <depends>com.intellij.modules.java</depends>
     <depends>org.jetbrains.android</depends>
     <depends>org.intellij.groovy</depends>
+    <depends>org.jetbrains.kotlin</depends>
     <depends>org.jetbrains.plugins.gradle</depends>
 
 </idea-plugin>
