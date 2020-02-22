@@ -98,7 +98,7 @@ class GradleKtsAddDependencyStrategy(
         val kotlinDependenciesPsi = psiFile?.children
                 ?.mapNotNull { it.children.getOrNull(0) }
                 ?.flatMap { it.children.toList() }
-                ?.map { it.children[0].children[0] }
+                ?.mapNotNull { it.children.getOrNull(0)?.children?.getOrNull(0) }
                 ?.find { it.text == "dependencies" }
 
         val artifactId = "${artifact.groupId}:${artifact.name}:${artifact.version}"
@@ -109,9 +109,9 @@ class GradleKtsAddDependencyStrategy(
             val dependenciesBlock = it.parent.children[1].children[0].children[0].children[0]
             dependenciesBlock.add(psiFactory.createNewLine())
             dependenciesBlock.add(block)
+            psiFile.subtreeChanged()
+            gradleFile.refresh(true, false)
         }
-        psiFile?.subtreeChanged()
-        gradleFile.refresh(true, false)
         return listOf(expression)
     }
 }
