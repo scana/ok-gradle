@@ -1,8 +1,5 @@
 package me.scana.okgradle.data
 
-import com.android.SdkConstants.DOT_GRADLE
-import com.android.SdkConstants.DOT_KTS
-import com.android.tools.idea.gradle.util.GradleUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
@@ -19,6 +16,8 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
 private const val ANNOTATION_PROCESSOR = "annotationProcessor"
 private const val KAPT = "kapt"
 private const val KAPT_PLUGIN = "kotlin-kapt"
+private const val DOT_KTS = ".kts"
+private const val DOT_GRADLE = ".gradle"
 
 interface AddDependencyStrategy {
     fun add(): List<String>

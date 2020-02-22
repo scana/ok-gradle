@@ -15,9 +15,7 @@
  */
 package me.scana.okgradle.internal.dsl.api
 
-import com.android.annotations.VisibleForTesting
 import com.android.tools.idea.gradle.project.sync.GradleFiles
-import com.android.tools.idea.gradle.project.sync.GradleSyncState
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
@@ -91,7 +89,6 @@ class ProjectBuildModelHandler(val project: Project) {
   /**
    * DO NOT use outside of tests.
    */
-  @VisibleForTesting
   constructor(project: Project, projectModel: ProjectBuildModel, lastSync: Long = -1L) : this(project) {
     projectBuildModel = projectModel
     modelSyncTime = lastSync
