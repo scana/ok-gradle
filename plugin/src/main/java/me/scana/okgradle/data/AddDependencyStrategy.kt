@@ -1,63 +1,116 @@
 package me.scana.okgradle.data
 
+import com.android.tools.idea.gradle.util.GradleUtil
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.psi.PsiManager
+import com.intellij.psi.codeStyle.CodeStyleManager
+import me.scana.okgradle.data.repository.Artifact
+import me.scana.okgradle.internal.dsl.api.GradleBuildModel
+import me.scana.okgradle.internal.dsl.api.ProjectBuildModel
 import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencySpec
 import me.scana.okgradle.internal.dsl.api.dependencies.CommonConfigurationNames
 import me.scana.okgradle.internal.dsl.api.dependencies.DependenciesModel
+import org.jetbrains.kotlin.psi.KtPsiFactory
 
 
 private const val ANNOTATION_PROCESSOR = "annotationProcessor"
 private const val KAPT = "kapt"
+private const val KAPT_PLUGIN = "kotlin-kapt"
 
 interface AddDependencyStrategy {
-    fun addDependency(dependencySpec: ArtifactDependencySpec, model: DependenciesModel): List<String>
-    fun getDependencyStatements(dependencySpec: ArtifactDependencySpec): List<String>
+    fun add(): List<String>
+}
+
+object CopyDependencyStrategy {
+    fun getDependencyStatements(artifact: Artifact): List<String> {
+        val dependencySpec = ArtifactDependencySpec.create(artifact.name, artifact.groupId, artifact.version)
+        if (dependencySpec.hasAnnotationProcessor()) {
+            val result = mutableListOf("${CommonConfigurationNames.IMPLEMENTATION} '${dependencySpec.compactNotation()}'")
+            val compilerName = dependencySpec.annotationProcessorName()
+            compilerName?.let {
+                val annotationProcessorSpec = ArtifactDependencySpec.create(it, dependencySpec.group, dependencySpec.version)
+                result.add("$ANNOTATION_PROCESSOR '${annotationProcessorSpec.compactNotation()}'")
+            }
+            return result
+        }
+        return listOf("${CommonConfigurationNames.IMPLEMENTATION} '${dependencySpec.compactNotation()}'")
+    }
 }
 
 object AddDependencyStrategyFactory {
 
-    fun create(dependencySpec: ArtifactDependencySpec, withKotlinKaptSupport: Boolean) = when {
-        dependencySpec.hasAnnotationProcessor() -> AnnotationProcessorDependencyStrategy(withKotlinKaptSupport)
-        else -> RegularAddDependencyStrategy()
+    fun create(project: Project, gradleFile: VirtualFile, artifact: Artifact): AddDependencyStrategy {
+        return if (GradleUtil.isKtsFile(gradleFile)) {
+            GradleKtsAddDependencyStrategy(project, gradleFile, artifact)
+        } else {
+            GradleAddDependencyStrategy(project, gradleFile, artifact)
+        }
     }
 }
 
-class RegularAddDependencyStrategy : AddDependencyStrategy {
-    override fun addDependency(dependencySpec: ArtifactDependencySpec, model: DependenciesModel): List<String> {
-        model.addArtifactCompat(CommonConfigurationNames.IMPLEMENTATION, dependencySpec)
-        return listOf(dependencySpec.compactNotation())
-    }
+class GradleAddDependencyStrategy(
+        private val project: Project,
+        private val gradleFile: VirtualFile,
+        private val artifact: Artifact
+) : AddDependencyStrategy {
 
-    override fun getDependencyStatements(dependencySpec: ArtifactDependencySpec): List<String> {
-        return listOf("${CommonConfigurationNames.IMPLEMENTATION} '${dependencySpec.compactNotation()}'")
-    }
-}
-class AnnotationProcessorDependencyStrategy(private val usesKotlinKapt: Boolean) : AddDependencyStrategy {
-    override fun addDependency(dependencySpec: ArtifactDependencySpec, model: DependenciesModel): List<String> {
+    override fun add(): List<String> {
+        val gradleBuildModel = ProjectBuildModel.get(project).getModuleBuildModel(gradleFile)
+        val dependencies = gradleBuildModel.dependencies()
+        val dependencySpec = ArtifactDependencySpec.create(artifact.name, artifact.groupId, artifact.version)
         val result = mutableListOf<String>()
-        model.addArtifactCompat(CommonConfigurationNames.IMPLEMENTATION, dependencySpec)
         result.add(dependencySpec.compactNotation())
-        val compilerName = dependencySpec.annotationProcessorName()
-        compilerName?.let {
-            val annotationProcessorSpec = ArtifactDependencySpec.create(it, dependencySpec.group, dependencySpec.version)
-            val configurationName = if (usesKotlinKapt) {
-                KAPT
-            } else {
-                ANNOTATION_PROCESSOR
+        if (dependencySpec.hasAnnotationProcessor()) {
+            dependencies.addArtifactCompat(CommonConfigurationNames.IMPLEMENTATION, dependencySpec)
+            val compilerName = dependencySpec.annotationProcessorName()
+            compilerName?.let {
+                val annotationProcessorSpec = ArtifactDependencySpec.create(it, dependencySpec.group, dependencySpec.version)
+                val configurationName = if (gradleBuildModel.usesKotlinKapt) {
+                    KAPT
+                } else {
+                    ANNOTATION_PROCESSOR
+                }
+                dependencies.addArtifactCompat(configurationName, annotationProcessorSpec)
+                result.add(annotationProcessorSpec.compactNotation())
             }
-            model.addArtifactCompat(configurationName, annotationProcessorSpec)
-            result.add(annotationProcessorSpec.compactNotation())
+        } else {
+            dependencies.addArtifactCompat(CommonConfigurationNames.IMPLEMENTATION, dependencySpec)
+        }
+        gradleBuildModel.applyChanges()
+        val psiFile = PsiManager.getInstance(project).findFile(gradleFile)
+        psiFile?.let {
+            CodeStyleManager.getInstance(project).adjustLineIndent(it, 0)
         }
         return result
     }
+}
 
-    override fun getDependencyStatements(dependencySpec: ArtifactDependencySpec): List<String> {
-        val result = mutableListOf("${CommonConfigurationNames.IMPLEMENTATION} '${dependencySpec.compactNotation()}'")
-        val compilerName = dependencySpec.annotationProcessorName()
-        compilerName?.let {
-            val annotationProcessorSpec = ArtifactDependencySpec.create(it, dependencySpec.group, dependencySpec.version)
-            result.add("$ANNOTATION_PROCESSOR '${annotationProcessorSpec.compactNotation()}'")
+class GradleKtsAddDependencyStrategy(
+        private val project: Project,
+        private val gradleFile: VirtualFile,
+        private val artifact: Artifact
+) : AddDependencyStrategy {
+    override fun add(): List<String> {
+        val psiFile = PsiManager.getInstance(project).findFile(gradleFile)
+        val kotlinDependenciesPsi = psiFile?.children
+                ?.mapNotNull { it.children.getOrNull(0) }
+                ?.flatMap { it.children.toList() }
+                ?.map { it.children[0].children[0] }
+                ?.find { it.text == "dependencies" }
+
+        val artifactId = "${artifact.groupId}:${artifact.name}:${artifact.version}"
+        val expression = "${CommonConfigurationNames.IMPLEMENTATION}(\"$artifactId\")"
+        kotlinDependenciesPsi?.let {
+            val psiFactory = KtPsiFactory(project, false)
+            val block = psiFactory.createExpression(expression)
+            val dependenciesBlock = it.parent.children[1].children[0].children[0].children[0]
+            dependenciesBlock.add(psiFactory.createNewLine())
+            dependenciesBlock.add(block)
         }
-        return result
+        psiFile?.subtreeChanged()
+        gradleFile.refresh(true, false)
+        return listOf(expression)
     }
 }
 
@@ -86,3 +139,6 @@ private fun DependenciesModel.addArtifactCompat(configurationName: String, depen
         method?.invoke(this, configurationName, dependencySpec)
     }
 }
+
+private val GradleBuildModel.usesKotlinKapt: Boolean
+    get() = plugins().any { it.name().forceString() == KAPT_PLUGIN }

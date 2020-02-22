@@ -10,14 +10,14 @@ import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.util.ui.TextTransferable
 import me.scana.okgradle.data.repository.Artifact
 import me.scana.okgradle.internal.dsl.api.GradleBuildModel
 import me.scana.okgradle.util.Notifier
-
-private const val KAPT_PLUGIN = "kotlin-kapt"
+import org.jetbrains.kotlin.psi.KtPsiFactory
 
 object AddDependencyUseCaseFactory {
     fun create(project: Project?, notifier: Notifier): AddDependencyUseCase {
@@ -41,31 +41,18 @@ class AddDependencyUseCaseImpl(
 ) : AddDependencyUseCase {
 
     override fun addDependency(module: Module, artifact: Artifact) {
-        val buildGradleFile = findGradleFile(module)
-        buildGradleFile?.let { gradleFile ->
-            val gradleBuildModel = ProjectBuildModel.get(project).getModuleBuildModel(gradleFile)
-            val dependencies = gradleBuildModel.dependencies()
-            val dependencySpec = ArtifactDependencySpec.create(artifact.name, artifact.groupId, artifact.version)
-            val dependencyStrategy = AddDependencyStrategyFactory.create(
-                    dependencySpec,
-                    withKotlinKaptSupport = gradleBuildModel.usesKotlinKapt
-            )
-            WriteCommandAction.runWriteCommandAction(project) {
-                val addedDependencies = dependencyStrategy.addDependency(dependencySpec, dependencies)
-                gradleBuildModel.applyChanges()
-                val psiFile = PsiManager.getInstance(project).findFile(gradleFile)
-                psiFile?.let {
-                    CodeStyleManager.getInstance(project).adjustLineIndent(it, 0)
-                }
-                notifier.showDependenciesAddedMessage(module.name, addedDependencies)
-            }
+        val buildGradleFile = findGradleFile(module) ?: return //TODO: throw an exception here with more info about Module
+        val strategy = AddDependencyStrategyFactory.create(project, buildGradleFile, artifact)
+        val psiFile = PsiManager.getInstance(project).findFile(buildGradleFile)
+        runAddDependencyWriteCommand(psiFile) {
+            val addedDependencies = strategy.add()
+            notifier.showDependenciesAddedMessage(module.name, addedDependencies)
         }
     }
 
     override fun copyToClipboard(artifact: Artifact) {
-        val dependencySpec = ArtifactDependencySpec.create(artifact.name, artifact.groupId, artifact.version)
-        val dependencyStrategy = AddDependencyStrategyFactory.create(dependencySpec, withKotlinKaptSupport = false)
-        CopyPasteManager.getInstance().setContents(TextTransferable(dependencyStrategy.getDependencyStatements(dependencySpec).joinToString("\n") as String?))
+        val dependencyStatements = CopyDependencyStrategy.getDependencyStatements(artifact)
+        CopyPasteManager.getInstance().setContents(TextTransferable(dependencyStatements.joinToString("\n") as String?))
         notifier.showDependenciesStatementCopiedMessage()
     }
 
@@ -74,8 +61,9 @@ class AddDependencyUseCaseImpl(
         return buildGradleFile ?: module.moduleFile?.parent?.findChild(SdkConstants.FN_BUILD_GRADLE_KTS)
     }
 
-    private val GradleBuildModel.usesKotlinKapt: Boolean
-        get() = plugins().any { it.name().forceString() == KAPT_PLUGIN }
+    private fun runAddDependencyWriteCommand(psiFile: PsiFile?, command: () -> Unit) {
+        WriteCommandAction.runWriteCommandAction(project, "Add dependency", null, Runnable { command() }, psiFile)
+    }
 }
 
 class CopyOnlyDependencyUseCase(
