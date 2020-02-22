@@ -1,1 +1,3 @@
 include ":java-module"
+include ":kotlin-module-kts"
+include ":android-app-module"
