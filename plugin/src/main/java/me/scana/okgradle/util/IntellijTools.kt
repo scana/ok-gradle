@@ -26,12 +26,14 @@ class IntellijToolsImpl(private val project: Project) : IntellijTools{
                 .modules
                 .toList()
                 .withSourceOnly()
+                .withGradleFiles()
                 .withoutMainModule()
     }
 
-    private fun List<Module>.withoutKotlinScriptModules(): List<Module> {
+    private fun List<Module>.withGradleFiles(): List<Module> {
         return this.filter {
-            it.moduleFile?.parent?.findChild("build.gradle") != null
+            it.moduleFile?.parent?.findChild("build.gradle") != null ||
+                    it.moduleFile?.parent?.findChild("build.gradle.kts") != null
         }
     }
 
