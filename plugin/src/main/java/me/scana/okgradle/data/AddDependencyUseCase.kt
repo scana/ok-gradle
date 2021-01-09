@@ -1,23 +1,17 @@
 package me.scana.okgradle.data
 
-import com.android.SdkConstants
-import me.scana.okgradle.internal.dsl.api.ProjectBuildModel
-import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencySpec
-import com.android.tools.idea.gradle.util.GradleUtil
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.command.impl.DummyProject
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.rootManager
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
-import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.util.ui.TextTransferable
 import me.scana.okgradle.data.repository.Artifact
-import me.scana.okgradle.internal.dsl.api.GradleBuildModel
 import me.scana.okgradle.util.Notifier
-import org.jetbrains.kotlin.psi.KtPsiFactory
 
 object AddDependencyUseCaseFactory {
     fun create(project: Project?, notifier: Notifier): AddDependencyUseCase {
@@ -57,8 +51,9 @@ class AddDependencyUseCaseImpl(
     }
 
     private fun findGradleFile(module: Module): VirtualFile? {
-        val buildGradleFile = GradleUtil.getGradleBuildFile(module)
-        return buildGradleFile ?: module.moduleFile?.parent?.findChild(SdkConstants.FN_BUILD_GRADLE_KTS)
+        val buildGradle = module.rootManager.contentRoots.first().findChild("build.gradle")
+        val buildGradleKts = module.rootManager.contentRoots.first().findChild("build.gradle.kts")
+        return buildGradle ?: buildGradleKts
     }
 
     private fun runAddDependencyWriteCommand(psiFile: PsiFile?, command: () -> Unit) {

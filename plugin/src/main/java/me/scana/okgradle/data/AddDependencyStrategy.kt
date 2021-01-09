@@ -2,7 +2,6 @@ package me.scana.okgradle.data
 
 import com.android.SdkConstants.DOT_GRADLE
 import com.android.SdkConstants.DOT_KTS
-import com.android.tools.idea.gradle.util.GradleUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
