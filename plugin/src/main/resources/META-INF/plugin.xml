@@ -9,12 +9,14 @@
         <p>Use this for adding dependencies easily to your <b>build.gradle</b>/<b>build.gradle.kts</b> files.</p>
 
         <b>Retrofit</b> - which is the correct one?<br/>
-        <pre>compile 'com.square.retrofit:retrofit2:2.9.0'</pre>
-        <pre>compile 'com.squareup.retrofit2:retrofit:2.9.0'</pre>
-
+        <pre>
+compile 'com.square.retrofit:retrofit2:2.9.0'
+compile 'com.squareup.retrofit2:retrofit:2.9.0'</pre>
+        </br>
         <b>Material Design Library</b> - which one was it?
-        <pre>compile 'com.google.android.material:material:1.2.1'</pre>
-        <pre>compile 'androidx.material:1.2.1'</pre>
+        <pre>
+compile 'com.google.android.material:material:1.2.1'
+compile 'androidx.material:1.2.1'</pre>
 
         <p>With this plugin, you won't have to remember it anymore nor open an external browser to search for it on the Internet!</p>
 
