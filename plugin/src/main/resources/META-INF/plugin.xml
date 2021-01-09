@@ -7,7 +7,7 @@
     <description><![CDATA[
         <p>Plugin for searching artifacts ids of popular Java libraries.</p>
         <p>Use this for adding dependencies easily to your <b>build.gradle</b>/<b>build.gradle.kts</b> files.</p>
-
+        </br>
         <b>Retrofit</b> - which is the correct one?<br/>
         <pre>
 compile 'com.square.retrofit:retrofit2:2.9.0'
@@ -17,14 +17,15 @@ compile 'com.squareup.retrofit2:retrofit:2.9.0'</pre>
         <pre>
 compile 'com.google.android.material:material:1.2.1'
 compile 'androidx.material:1.2.1'</pre>
-
+        </br>
         <p>With this plugin, you won't have to remember it anymore nor open an external browser to search for it on the Internet!</p>
-
+        </br>
         <b>Usage:</b>
         <p>Find the <em>OK, Gradle</em> action  with CTRL/CMD + SHIFT + A shortcut and type library's name that you are looking for in an input field.</p>
         <p>To make your life even more easier, assign a shortcut to it, e.g. CMD+K if you don't use VCS features in your IDE</p>
+        </br>
         <p><b>You need to have an active Internet connection to be able to use this tool.</b></p>
-
+        </br>
         <b>Disclaimer</b><br/>
         <p>I want to thank <a href="https://chrisbroadfoot.id.au">Chris Broadfoot</a> for creating <a href="http://gradleplease.appspot.com">http://gradleplease.appspot.com</a> website, which was an inspiration for this plugin.</p>
     ]]>
