@@ -17,14 +17,14 @@ Use those for adding new dependencies easily to your build.gradle/build.gradle.k
 
 #### Retrofit - which one was it?
 ```
-compile 'com.square.retrofit:retrofit2:2.3.0'
-compile 'com.squareup.retrofit2:retrofit:2.3.0'
+compile 'com.square.retrofit:retrofit2:2.9.0'
+compile 'com.squareup.retrofit2:retrofit:2.9.0'
 ```
 
 #### Android Design library - which one was it?
 ```
-compile 'com.android.support:design:26.1.0'
-compile 'com.android.support:support-design:26.1.0'
+compile 'androidx.material:1.2.1'
+compile 'com.google.android.material:material:1.2.1'
 ```
 
 With this plugin, you won't have to remember it anymore nor open an external browser to search for it on the Internet.
