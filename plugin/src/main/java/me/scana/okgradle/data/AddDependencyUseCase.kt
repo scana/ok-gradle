@@ -10,7 +10,9 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.util.ui.TextTransferable
+import me.scana.okgradle.Copys
 import me.scana.okgradle.data.repository.Artifact
+import me.scana.okgradle.util.Constants
 import me.scana.okgradle.util.Notifier
 
 object AddDependencyUseCaseFactory {
@@ -51,13 +53,13 @@ class AddDependencyUseCaseImpl(
     }
 
     private fun findGradleFile(module: Module): VirtualFile? {
-        val buildGradle = module.rootManager.contentRoots.first().findChild("build.gradle")
-        val buildGradleKts = module.rootManager.contentRoots.first().findChild("build.gradle.kts")
+        val buildGradle = module.rootManager.contentRoots.first().findChild(Constants.BUILD_GRADLE)
+        val buildGradleKts = module.rootManager.contentRoots.first().findChild(Constants.BUILD_GRADLE_KTS)
         return buildGradle ?: buildGradleKts
     }
 
     private fun runAddDependencyWriteCommand(psiFile: PsiFile?, command: () -> Unit) {
-        WriteCommandAction.runWriteCommandAction(project, "Add dependency", null, Runnable { command() }, psiFile)
+        WriteCommandAction.runWriteCommandAction(project, Copys.ADD_DEPENDENCY, null, Runnable { command() }, psiFile)
     }
 }
 

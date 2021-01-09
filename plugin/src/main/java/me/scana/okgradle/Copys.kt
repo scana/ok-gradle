@@ -22,5 +22,6 @@ class Copys {
         const val SUGGESTION_FIRST_PART = "(did you mean: "
         const val SUGGESTION_LAST_PART = "?)"
         const val INPUT_HINT = "try typing \'retrofit\'"
+        const val ADD_DEPENDENCY = "Add dependency"
     }
 }
