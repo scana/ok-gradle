@@ -21,13 +21,7 @@ object AndroidPluginUtils {
 
     @JvmStatic
     fun getGradleBuildFile(module: Module): VirtualFile? {
-        val gradleFile = module.rootManager.contentRoots.first().findChild(Constants.BUILD_GRADLE)
-        if (gradleFile != null) {
-            return gradleFile
-        }
-        val moduleFilePath = File(module.moduleFilePath)
-        val parentFile = moduleFilePath.parentFile
-        return if (parentFile != null) getGradleBuildFile(parentFile) else null
+        return module.rootManager.contentRoots.first().findChild(Constants.BUILD_GRADLE)
     }
 
     @JvmStatic
