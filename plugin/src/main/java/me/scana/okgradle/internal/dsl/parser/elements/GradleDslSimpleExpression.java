@@ -15,6 +15,7 @@
  */
 package me.scana.okgradle.internal.dsl.parser.elements;
 
+import com.intellij.openapi.project.ProjectUtil;
 import me.scana.okgradle.internal.dsl.api.GradleSettingsModel;
 import me.scana.okgradle.internal.dsl.api.ext.GradlePropertyModel;
 import me.scana.okgradle.internal.dsl.api.ext.ReferenceTo;
@@ -287,7 +288,7 @@ public abstract class GradleDslSimpleExpression extends GradleDslElementImpl imp
     }
 
     if ("rootProject".equals(projectReference)) {
-      while (dslFile != null && !filesEqual(dslFile.getDirectoryPath(), virtualToIoFile(dslFile.getProject().getBaseDir()))) {
+      while (dslFile != null && !filesEqual(dslFile.getDirectoryPath(), virtualToIoFile(ProjectUtil.guessProjectDir(dslFile.getProject())))) {
         dslFile = dslFile.getParentModuleDslFile();
       }
       return dslFile;
@@ -306,7 +307,7 @@ public abstract class GradleDslSimpleExpression extends GradleDslElementImpl imp
       if (moduleDirectory == null) {
         return null;
       }
-      while (dslFile != null && !filesEqual(dslFile.getDirectoryPath(), virtualToIoFile(dslFile.getProject().getBaseDir()))) {
+      while (dslFile != null && !filesEqual(dslFile.getDirectoryPath(), virtualToIoFile(ProjectUtil.guessProjectDir(dslFile.getProject())))) {
         dslFile = dslFile.getParentModuleDslFile();
       }
       if (dslFile == null) {
