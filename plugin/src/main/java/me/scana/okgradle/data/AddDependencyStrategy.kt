@@ -1,7 +1,5 @@
 package me.scana.okgradle.data
 
-import com.android.SdkConstants.DOT_GRADLE
-import com.android.SdkConstants.DOT_KTS
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
@@ -12,6 +10,8 @@ import me.scana.okgradle.internal.dsl.api.ProjectBuildModel
 import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencySpec
 import me.scana.okgradle.internal.dsl.api.dependencies.CommonConfigurationNames
 import me.scana.okgradle.internal.dsl.api.dependencies.DependenciesModel
+import me.scana.okgradle.util.Constants.DOT_GRADLE
+import me.scana.okgradle.util.Constants.DOT_KTS
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
 

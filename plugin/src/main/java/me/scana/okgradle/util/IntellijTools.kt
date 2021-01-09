@@ -2,7 +2,6 @@ package me.scana.okgradle.util
 
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleManager
-import com.intellij.openapi.module.impl.scopes.ModuleWithDependenciesScope
 import com.intellij.openapi.project.Project
 import org.jetbrains.kotlin.idea.util.rootManager
 import org.jetbrains.kotlin.idea.util.sourceRoots
@@ -39,7 +38,7 @@ class IntellijToolsImpl(private val project: Project) : IntellijTools {
         return filter { module ->
             module.rootManager.contentRoots.any { root ->
                 root.children.any { child ->
-                    child.name == "build.gradle" || child.name == "build.gradle.kts"
+                    child.name in Constants.BUILD_GRADLE_FILES
                 }
             }
         }
