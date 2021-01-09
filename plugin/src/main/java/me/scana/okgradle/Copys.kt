@@ -17,7 +17,8 @@ class Copys {
         val TIPS = listOf(
                 "Press down key after typing a search phrase to jump to the list directly",
                 "Press enter after selecting an artifact from the list to automatically add it",
-                "Some repositories might take longer to search through - give it a while"
+                "Some repositories might take longer to search through - give it a while",
+                "You can set a custom shortcut for easier access to Ok, Gradle!"
         )
         const val SUGGESTION_FIRST_PART = "(did you mean: "
         const val SUGGESTION_LAST_PART = "?)"
