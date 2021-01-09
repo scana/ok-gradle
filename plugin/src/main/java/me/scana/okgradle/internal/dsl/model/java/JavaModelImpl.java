@@ -15,7 +15,6 @@
  */
 package me.scana.okgradle.internal.dsl.model.java;
 
-import com.android.annotations.VisibleForTesting;
 import me.scana.okgradle.internal.dsl.api.java.JavaModel;
 import me.scana.okgradle.internal.dsl.model.BaseCompileOptionsModelImpl;
 import me.scana.okgradle.internal.dsl.parser.java.JavaDslElement;
@@ -29,7 +28,6 @@ public class JavaModelImpl extends BaseCompileOptionsModelImpl implements JavaMo
     super(dslElement, true);
   }
 
-  @VisibleForTesting
   @NotNull
   JavaDslElement getGradleDslElement() {
     return (JavaDslElement)myDslElement;

@@ -25,8 +25,6 @@ import me.scana.okgradle.internal.dsl.api.ext.GradlePropertyModel;
 import me.scana.okgradle.internal.dsl.api.ext.ResolvedPropertyModel;
 import me.scana.okgradle.internal.dsl.api.ext.SigningConfigPropertyModel;
 import me.scana.okgradle.internal.dsl.model.GradleDslBlockModel;
-import me.scana.okgradle.internal.dsl.model.android.BuildTypeModelImpl;
-import me.scana.okgradle.internal.dsl.model.android.ProductFlavorModelImpl;
 import me.scana.okgradle.internal.dsl.model.ext.GradlePropertyModelBuilder;
 import me.scana.okgradle.internal.dsl.model.ext.GradlePropertyModelImpl;
 import me.scana.okgradle.internal.dsl.parser.android.AbstractFlavorTypeDslElement;

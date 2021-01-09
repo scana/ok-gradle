@@ -15,7 +15,6 @@
  */
 package me.scana.okgradle.internal.dsl.parser.elements;
 
-import com.android.annotations.VisibleForTesting;
 import me.scana.okgradle.internal.dsl.api.ext.PropertyType;
 import me.scana.okgradle.internal.dsl.parser.GradleReferenceInjection;
 import me.scana.okgradle.internal.dsl.parser.apply.ApplyDslElement;
@@ -451,7 +450,6 @@ public abstract class GradlePropertiesDslElement extends GradleDslElementImpl {
     addNewElementAt(index, newElement);
   }
 
-  @VisibleForTesting
   public void moveElementTo(int index, @NotNull me.scana.okgradle.internal.dsl.parser.elements.GradleDslElement newElement) {
     assert newElement.getParent() == this;
     myProperties.moveElementToIndex(newElement, index);
@@ -683,7 +681,6 @@ public abstract class GradlePropertiesDslElement extends GradleDslElementImpl {
         Collectors.toList());
   }
 
-  @VisibleForTesting
   public boolean isApplied(@NotNull me.scana.okgradle.internal.dsl.parser.elements.GradleDslElement element) {
     for (ElementList.ElementItem item : myProperties.myElements) {
       if (item.myElement == element) {

@@ -16,15 +16,15 @@
 package me.scana.okgradle.internal.dsl.model.ext.transforms;
 
 import me.scana.okgradle.internal.dsl.api.ext.GradlePropertyModel;
-import me.scana.okgradle.internal.dsl.model.ext.transforms.PropertyTransform;
 import me.scana.okgradle.internal.dsl.parser.elements.GradleDslElement;
 import me.scana.okgradle.internal.dsl.parser.elements.GradleDslExpression;
 import me.scana.okgradle.internal.dsl.parser.elements.GradleDslMethodCall;
 import me.scana.okgradle.internal.dsl.parser.elements.GradleNameElement;
-import com.android.tools.pixelprobe.util.Strings;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import java.util.HashSet;
+
+import me.scana.okgradle.util.AndroidPluginUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -70,7 +70,7 @@ public class SingleArgumentMethodTransform extends PropertyTransform {
     List<String> splitName = Lists.newArrayList(Splitter.on(".").split(object.getQualifiedName()));
     splitName.add(methodName);
     for (int i = 0; i < splitName.size(); i++) {
-      myRecognizedNames.add(Strings.join(splitName.subList(i, splitName.size()), "."));
+      myRecognizedNames.add(AndroidPluginUtils.join(splitName.subList(i, splitName.size()), "."));
     }
   }
 

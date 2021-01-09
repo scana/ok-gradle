@@ -29,7 +29,6 @@ import static com.intellij.psi.util.PsiTreeUtil.getNextSiblingOfType;
 import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencySpec;
 import me.scana.okgradle.internal.dsl.api.ext.ReferenceTo;
 import me.scana.okgradle.internal.dsl.model.GradleBuildModelImpl;
-import me.scana.okgradle.internal.dsl.model.android.AndroidModelImpl;
 import me.scana.okgradle.internal.dsl.parser.GradleDslParser;
 import me.scana.okgradle.internal.dsl.parser.GradleReferenceInjection;
 import me.scana.okgradle.internal.dsl.parser.SharedParserUtilsKt;

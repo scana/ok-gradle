@@ -15,9 +15,7 @@
  */
 package me.scana.okgradle.internal.dsl.model;
 
-import static com.android.SdkConstants.FN_GRADLE_PROPERTIES;
-import static com.android.tools.idea.Projects.getBaseDirPath;
-import static me.scana.okgradle.internal.dsl.parser.android.AndroidDslElement.ANDROID_BLOCK_NAME;
+import static me.scana.okgradle.util.AndroidPluginUtils.getBaseDirPath;
 import static me.scana.okgradle.internal.dsl.parser.apply.ApplyDslElement.APPLY_BLOCK_NAME;
 import static me.scana.okgradle.internal.dsl.parser.buildscript.BuildScriptDslElement.BUILDSCRIPT_BLOCK_NAME;
 import static me.scana.okgradle.internal.dsl.parser.buildscript.SubProjectsDslElement.SUBPROJECTS_BLOCK_NAME;
@@ -25,7 +23,7 @@ import static me.scana.okgradle.internal.dsl.parser.dependencies.DependenciesDsl
 import static me.scana.okgradle.internal.dsl.parser.ext.ExtDslElement.EXT_BLOCK_NAME;
 import static me.scana.okgradle.internal.dsl.parser.java.JavaDslElement.JAVA_BLOCK_NAME;
 import static me.scana.okgradle.internal.dsl.parser.repositories.RepositoriesDslElement.REPOSITORIES_BLOCK_NAME;
-import static com.android.tools.idea.gradle.util.GradleUtil.getGradleBuildFile;
+import static me.scana.okgradle.util.AndroidPluginUtils.getGradleBuildFile;
 import static com.intellij.openapi.vfs.VfsUtil.findFileByIoFile;
 
 import me.scana.okgradle.internal.dsl.api.BuildScriptModel;
@@ -34,14 +32,12 @@ import me.scana.okgradle.internal.dsl.api.GradleFileModel;
 import me.scana.okgradle.internal.dsl.api.GradleSettingsModel;
 import me.scana.okgradle.internal.dsl.api.PluginModel;
 import me.scana.okgradle.internal.dsl.api.ProjectBuildModel;
-import me.scana.okgradle.internal.dsl.api.android.AndroidModel;
 import me.scana.okgradle.internal.dsl.api.configurations.ConfigurationsModel;
 import me.scana.okgradle.internal.dsl.api.dependencies.DependenciesModel;
 import me.scana.okgradle.internal.dsl.api.ext.ExtModel;
 import me.scana.okgradle.internal.dsl.api.java.JavaModel;
 import me.scana.okgradle.internal.dsl.api.repositories.RepositoriesModel;
 import me.scana.okgradle.internal.dsl.api.values.GradleNotNullValue;
-import me.scana.okgradle.internal.dsl.model.android.AndroidModelImpl;
 import me.scana.okgradle.internal.dsl.model.buildscript.BuildScriptModelImpl;
 import me.scana.okgradle.internal.dsl.model.configurations.ConfigurationsModelImpl;
 import me.scana.okgradle.internal.dsl.model.dependencies.DependenciesModelImpl;
@@ -49,7 +45,6 @@ import me.scana.okgradle.internal.dsl.model.ext.ExtModelImpl;
 import me.scana.okgradle.internal.dsl.model.java.JavaModelImpl;
 import me.scana.okgradle.internal.dsl.model.repositories.RepositoriesModelImpl;
 import me.scana.okgradle.internal.dsl.parser.BuildModelContext;
-import me.scana.okgradle.internal.dsl.parser.android.AndroidDslElement;
 import me.scana.okgradle.internal.dsl.parser.apply.ApplyDslElement;
 import me.scana.okgradle.internal.dsl.parser.buildscript.BuildScriptDslElement;
 import me.scana.okgradle.internal.dsl.parser.buildscript.SubProjectsDslElement;
@@ -80,6 +75,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import me.scana.okgradle.util.Constants;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -243,7 +240,7 @@ public class GradleBuildModelImpl extends GradleFileModelImpl implements GradleB
 
   public static void populateSiblingDslFileWithGradlePropertiesFile(@NotNull GradleBuildFile buildDslFile,
                                                                     @NotNull BuildModelContext context) {
-    File propertiesFilePath = new File(buildDslFile.getDirectoryPath(), FN_GRADLE_PROPERTIES);
+    File propertiesFilePath = new File(buildDslFile.getDirectoryPath(), Constants.GRADLE_PROPERTIES);
     VirtualFile propertiesFile = findFileByIoFile(propertiesFilePath, false);
     if (propertiesFile == null) {
       return;
@@ -307,23 +304,6 @@ public class GradleBuildModelImpl extends GradleFileModelImpl implements GradleB
     }
 
     me.scana.okgradle.internal.dsl.model.PluginModelImpl.removePlugins(PluginModelImpl.create(applyDslElement), plugin);
-  }
-
-  /**
-   * Returns {@link AndroidModelImpl} to read and update android block contents in the build.gradle file.
-   *
-   * <p>Returns {@code null} when experimental plugin is used as reading and updating android section is not supported for the
-   * experimental dsl.</p>
-   */
-  @Override
-  @NotNull
-  public AndroidModel android() {
-    AndroidDslElement androidDslElement = myGradleDslFile.getPropertyElement(ANDROID_BLOCK_NAME, AndroidDslElement.class);
-    if (androidDslElement == null) {
-      androidDslElement = new AndroidDslElement(myGradleDslFile);
-      myGradleDslFile.setNewElement(androidDslElement);
-    }
-    return new AndroidModelImpl(androidDslElement);
   }
 
   @NotNull

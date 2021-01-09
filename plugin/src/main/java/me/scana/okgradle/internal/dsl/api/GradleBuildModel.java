@@ -15,12 +15,6 @@
  */
 package me.scana.okgradle.internal.dsl.api;
 
-import me.scana.okgradle.internal.dsl.api.BuildScriptModel;
-import me.scana.okgradle.internal.dsl.api.GradleFileModel;
-import me.scana.okgradle.internal.dsl.api.GradleModelProvider;
-import me.scana.okgradle.internal.dsl.api.PluginModel;
-import me.scana.okgradle.internal.dsl.api.ProjectBuildModel;
-import me.scana.okgradle.internal.dsl.api.android.AndroidModel;
 import me.scana.okgradle.internal.dsl.api.configurations.ConfigurationsModel;
 import me.scana.okgradle.internal.dsl.api.dependencies.DependenciesModel;
 import me.scana.okgradle.internal.dsl.api.ext.ExtModel;
@@ -131,9 +125,6 @@ public interface GradleBuildModel extends me.scana.okgradle.internal.dsl.api.Gra
   PluginModel applyPlugin(@NotNull String plugin);
 
   void removePlugin(@NotNull String plugin);
-
-  @NotNull
-  AndroidModel android();
 
   @NotNull
   BuildScriptModel buildscript();

@@ -16,8 +16,8 @@
 package me.scana.okgradle.internal.dsl.model.notifications;
 
 import me.scana.okgradle.internal.dsl.api.BuildModelNotification;
-import com.android.tools.pixelprobe.util.Strings;
 import com.intellij.psi.PsiElement;
+import me.scana.okgradle.util.AndroidPluginUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -49,6 +49,6 @@ public final class IncompleteParsingNotification implements BuildModelNotificati
 
   @NotNull
   public String toString() {
-    return "Found the following unknown element types while parsing: " + Strings.join(myUnknownElementNames, ", ");
+    return "Found the following unknown element types while parsing: " + AndroidPluginUtils.join(myUnknownElementNames, ", ");
   }
 }

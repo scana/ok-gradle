@@ -15,20 +15,17 @@
  */
 package me.scana.okgradle.internal.dsl.model;
 
-import static com.android.SdkConstants.FN_BUILD_GRADLE;
-import static com.android.tools.idea.Projects.getBaseDirPath;
 import static me.scana.okgradle.internal.dsl.parser.settings.ProjectPropertiesDslElement.BUILD_FILE_NAME;
-import static com.android.tools.idea.gradle.util.GradleUtil.getGradleBuildFile;
-import static com.android.tools.idea.gradle.util.GradleUtil.getGradleSettingsFile;
+import static me.scana.okgradle.util.AndroidPluginUtils.getGradleBuildFile;
+import static me.scana.okgradle.util.AndroidPluginUtils.getGradleSettingsFile;
 import static com.intellij.openapi.util.io.FileUtil.filesEqual;
 import static com.intellij.openapi.vfs.VfsUtil.findFileByIoFile;
 import static com.intellij.openapi.vfs.VfsUtilCore.virtualToIoFile;
+import static me.scana.okgradle.util.AndroidPluginUtils.getBaseDirPath;
 
 import me.scana.okgradle.internal.dsl.api.GradleBuildModel;
 import me.scana.okgradle.internal.dsl.api.GradleSettingsModel;
 import me.scana.okgradle.internal.dsl.api.ProjectBuildModel;
-import me.scana.okgradle.internal.dsl.model.GradleBuildModelImpl;
-import me.scana.okgradle.internal.dsl.model.GradleFileModelImpl;
 import me.scana.okgradle.internal.dsl.parser.BuildModelContext;
 import me.scana.okgradle.internal.dsl.parser.elements.GradleDslElement;
 import me.scana.okgradle.internal.dsl.parser.elements.GradleDslExpressionList;
@@ -40,11 +37,12 @@ import com.google.common.collect.Lists;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import me.scana.okgradle.util.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -253,7 +251,7 @@ public class GradleSettingsModelImpl extends GradleFileModelImpl implements Grad
     }
 
     if (buildFileName == null) {
-      buildFileName = FN_BUILD_GRADLE;
+      buildFileName = Constants.BUILD_GRADLE;
     }
 
     return new File(moduleDirectory, buildFileName);

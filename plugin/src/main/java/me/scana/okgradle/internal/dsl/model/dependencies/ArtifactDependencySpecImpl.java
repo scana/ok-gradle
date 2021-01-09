@@ -17,12 +17,12 @@ package me.scana.okgradle.internal.dsl.model.dependencies;
 
 import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencyModel;
 import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencySpec;
-import com.android.tools.idea.projectsystem.GoogleMavenArtifactId;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.intellij.util.Function;
+import me.scana.okgradle.util.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +30,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.android.SdkConstants.GRADLE_PATH_SEPARATOR;
 import static com.google.common.base.Strings.emptyToNull;
 import static com.intellij.openapi.util.text.StringUtil.isNotEmpty;
 
@@ -62,7 +61,7 @@ public class ArtifactDependencySpecImpl implements ArtifactDependencySpec {
     //   version: 1.0
     //   classifier: jdk15
     //   extension: jar
-    List<String> segments = Splitter.on(GRADLE_PATH_SEPARATOR).trimResults().omitEmptyStrings().splitToList(notation);
+    List<String> segments = Splitter.on(Constants.GRADLE_PATH_SEPARATOR).trimResults().omitEmptyStrings().splitToList(notation);
     int segmentCount = segments.size();
     if (segmentCount > 0) {
       segments = Lists.newArrayList(segments);
@@ -172,10 +171,6 @@ public class ArtifactDependencySpecImpl implements ArtifactDependencySpec {
                                           dependency.extension().toString());
   }
 
-  public ArtifactDependencySpecImpl(@NotNull GoogleMavenArtifactId artifactId, @Nullable String version) {
-    this(artifactId.getMavenArtifactId(), artifactId.getMavenGroupId(), version, null, null);
-  }
-
   public ArtifactDependencySpecImpl(@NotNull String name, @Nullable String group, @Nullable String version) {
     this(name, group, version, null, null);
   }
@@ -230,7 +225,7 @@ public class ArtifactDependencySpecImpl implements ArtifactDependencySpec {
   @Override
   public String compactNotation() {
     List<String> segments = Lists.newArrayList(group, name, version, classifier);
-    String s = Joiner.on(GRADLE_PATH_SEPARATOR).skipNulls().join(segments);
+    String s = Joiner.on(Constants.GRADLE_PATH_SEPARATOR).skipNulls().join(segments);
     if (extension != null) {
       s += "@" + extension;
     }

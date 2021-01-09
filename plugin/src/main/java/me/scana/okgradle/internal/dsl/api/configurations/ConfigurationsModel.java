@@ -15,7 +15,6 @@
  */
 package me.scana.okgradle.internal.dsl.api.configurations;
 
-import me.scana.okgradle.internal.dsl.api.configurations.ConfigurationModel;
 import me.scana.okgradle.internal.dsl.api.util.GradleDslModel;
 import org.jetbrains.annotations.NotNull;
 

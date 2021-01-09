@@ -15,7 +15,7 @@
  */
 package me.scana.okgradle.internal.dsl.parser.files;
 
-import static com.android.tools.idea.gradle.util.GradleUtil.getGradleSettingsFile;
+import static me.scana.okgradle.util.AndroidPluginUtils.getGradleSettingsFile;
 import static com.intellij.openapi.vfs.VfsUtilCore.virtualToIoFile;
 
 import me.scana.okgradle.internal.dsl.api.BuildModelNotification;

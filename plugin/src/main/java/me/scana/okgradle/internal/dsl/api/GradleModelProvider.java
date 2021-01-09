@@ -15,13 +15,8 @@
  */
 package me.scana.okgradle.internal.dsl.api;
 
-import me.scana.okgradle.internal.dsl.api.GradleBuildModel;
-import me.scana.okgradle.internal.dsl.api.GradleModelSource;
-import me.scana.okgradle.internal.dsl.api.GradleSettingsModel;
-import me.scana.okgradle.internal.dsl.api.ProjectBuildModel;
 import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencyModel;
 import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencySpec;
-import com.android.tools.idea.projectsystem.GoogleMavenArtifactId;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -73,7 +68,4 @@ public abstract class GradleModelProvider {
 
   @Nullable
   public abstract ArtifactDependencySpec getArtifactDependencySpec(@NotNull String notation);
-
-  @NotNull
-  public abstract ArtifactDependencySpec getArtifactDependencySpec(@NotNull GoogleMavenArtifactId artifactId, @Nullable String version);
 }

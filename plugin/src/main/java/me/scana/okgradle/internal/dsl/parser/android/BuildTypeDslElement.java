@@ -15,7 +15,6 @@
  */
 package me.scana.okgradle.internal.dsl.parser.android;
 
-import me.scana.okgradle.internal.dsl.parser.android.AbstractFlavorTypeDslElement;
 import me.scana.okgradle.internal.dsl.parser.elements.GradleDslElement;
 import me.scana.okgradle.internal.dsl.parser.elements.GradleDslExpressionList;
 import me.scana.okgradle.internal.dsl.parser.elements.GradleNameElement;

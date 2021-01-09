@@ -16,8 +16,6 @@ import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 import javax.swing.event.ListSelectionListener
 
-
-
 class HintTextField(var hint: String = "") : JTextField() {
     override fun paint(g: Graphics?) {
         super.paint(g)

@@ -15,8 +15,6 @@
  */
 package me.scana.okgradle.internal.dsl.api.repositories;
 
-import com.android.ide.common.repository.GradleVersion;
-import me.scana.okgradle.internal.dsl.api.repositories.RepositoryModel;
 import me.scana.okgradle.internal.dsl.api.util.GradleDslModel;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
@@ -38,8 +36,4 @@ public interface RepositoriesModel extends GradleDslModel {
   boolean containsMavenRepositoryByUrl(@NotNull String repositoryUrl);
 
   boolean hasGoogleMavenRepository();
-
-  void addGoogleMavenRepository(@NotNull Project project);
-
-  void addGoogleMavenRepository(@NotNull GradleVersion gradleVersion);
 }

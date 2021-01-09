@@ -15,18 +15,14 @@
  */
 package me.scana.okgradle.internal.dsl.model.repositories;
 
-import com.android.ide.common.repository.GradleVersion;
 import me.scana.okgradle.internal.dsl.api.repositories.RepositoriesModel;
 import me.scana.okgradle.internal.dsl.api.repositories.RepositoryModel;
 import me.scana.okgradle.internal.dsl.model.GradleDslBlockModel;
-import me.scana.okgradle.internal.dsl.model.repositories.*;
 import me.scana.okgradle.internal.dsl.parser.elements.*;
 import me.scana.okgradle.internal.dsl.parser.repositories.FlatDirRepositoryDslElement;
 import me.scana.okgradle.internal.dsl.parser.repositories.MavenRepositoryDslElement;
 import me.scana.okgradle.internal.dsl.parser.repositories.RepositoriesDslElement;
-import com.android.tools.idea.gradle.util.GradleVersions;
 import com.google.common.collect.Lists;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
@@ -191,25 +187,5 @@ public class RepositoriesModelImpl extends GradleDslBlockModel implements Reposi
       return true;
     }
     return containsMavenRepositoryByUrl(GOOGLE_DEFAULT_REPO_URL);
-  }
-
-  @Override
-  public void addGoogleMavenRepository(@NotNull Project project) {
-    if (GradleVersions.getInstance().isGradle4OrNewer(project)) {
-      addRepositoryByMethodName(GOOGLE_METHOD_NAME);
-    }
-    else {
-      addMavenRepositoryByUrl(GOOGLE_DEFAULT_REPO_URL, GOOGLE_DEFAULT_REPO_NAME);
-    }
-  }
-
-  @Override
-  public void addGoogleMavenRepository(@NotNull GradleVersion gradleVersion) {
-    if (gradleVersion.compareIgnoringQualifiers("4.0") >= 0) {
-      addRepositoryByMethodName(GOOGLE_METHOD_NAME);
-    }
-    else {
-      addMavenRepositoryByUrl(GOOGLE_DEFAULT_REPO_URL, GOOGLE_DEFAULT_REPO_NAME);
-    }
   }
 }

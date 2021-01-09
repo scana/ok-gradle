@@ -16,8 +16,6 @@
 package me.scana.okgradle.internal.dsl.api.android;
 
 import me.scana.okgradle.internal.dsl.api.ExternalNativeBuildModel;
-import me.scana.okgradle.internal.dsl.api.android.*;
-import me.scana.okgradle.internal.dsl.api.android.SplitsModel;
 import me.scana.okgradle.internal.dsl.api.android.externalNativeBuild.AdbOptionsModel;
 import me.scana.okgradle.internal.dsl.api.ext.ResolvedPropertyModel;
 import me.scana.okgradle.internal.dsl.api.util.GradleDslModel;

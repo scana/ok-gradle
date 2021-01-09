@@ -15,7 +15,6 @@
  */
 package me.scana.okgradle.internal.dsl.parser.elements;
 
-import com.android.tools.idea.Projects;
 import me.scana.okgradle.internal.dsl.api.GradleSettingsModel;
 import me.scana.okgradle.internal.dsl.api.ext.GradlePropertyModel;
 import me.scana.okgradle.internal.dsl.api.ext.ReferenceTo;
@@ -34,6 +33,7 @@ import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ThreeState;
+import me.scana.okgradle.util.AndroidPluginUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -266,7 +266,7 @@ public abstract class GradleDslSimpleExpression extends GradleDslElementImpl imp
 
     String fullTextReference = String.join(".", referenceTextSegments);
     if ("rootDir".equals(fullTextReference)) { // resolve the rootDir reference to project root directory.
-      return new me.scana.okgradle.internal.dsl.parser.elements.GradleDslGlobalValue(dslFile, Projects.getBaseDirPath(dslFile.getProject()).getPath());
+      return new me.scana.okgradle.internal.dsl.parser.elements.GradleDslGlobalValue(dslFile, AndroidPluginUtils.getBaseDirPath(dslFile.getProject()).getPath());
     }
     if ("projectDir".equals(fullTextReference)) { // resolve the projectDir reference to module directory.
       return new GradleDslGlobalValue(dslFile, dslFile.getDirectoryPath().getPath());

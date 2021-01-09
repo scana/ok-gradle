@@ -17,8 +17,6 @@ package me.scana.okgradle.internal.dsl.model.dependencies;
 
 import me.scana.okgradle.internal.dsl.api.dependencies.ModuleDependencyModel;
 import me.scana.okgradle.internal.dsl.api.ext.ResolvedPropertyModel;
-import me.scana.okgradle.internal.dsl.model.dependencies.DependenciesModelImpl;
-import me.scana.okgradle.internal.dsl.model.dependencies.DependencyModelImpl;
 import me.scana.okgradle.internal.dsl.model.ext.GradlePropertyModelBuilder;
 import me.scana.okgradle.internal.dsl.model.ext.transforms.MapMethodTransform;
 import me.scana.okgradle.internal.dsl.model.ext.transforms.SingleArgToMapTransform;
@@ -31,14 +29,14 @@ import me.scana.okgradle.internal.dsl.parser.elements.GradlePropertiesDslElement
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import me.scana.okgradle.util.Constants;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.android.SdkConstants.GRADLE_PATH_SEPARATOR;
-import static com.android.tools.idea.gradle.util.GradleUtil.getPathSegments;
+import static me.scana.okgradle.util.AndroidPluginUtils.getPathSegments;
 
 public class ModuleDependencyModelImpl extends DependencyModelImpl implements
                                                                    ModuleDependencyModel {
@@ -107,15 +105,15 @@ public class ModuleDependencyModelImpl extends DependencyModelImpl implements
     ResolvedPropertyModel path = path();
 
     // Keep empty spaces, needed when putting the path back together
-    List<String> segments = Splitter.on(GRADLE_PATH_SEPARATOR).splitToList(path.forceString());
+    List<String> segments = Splitter.on(Constants.GRADLE_PATH_SEPARATOR).splitToList(path.forceString());
     List<String> modifiableSegments = Lists.newArrayList(segments);
     int segmentCount = modifiableSegments.size();
     if (segmentCount == 0) {
-      newPath = GRADLE_PATH_SEPARATOR + name.trim();
+      newPath = Constants.GRADLE_PATH_SEPARATOR + name.trim();
     }
     else {
       modifiableSegments.set(segmentCount - 1, name);
-      newPath = Joiner.on(GRADLE_PATH_SEPARATOR).join(modifiableSegments);
+      newPath = Joiner.on(Constants.GRADLE_PATH_SEPARATOR).join(modifiableSegments);
     }
     path.setValue(newPath);
   }

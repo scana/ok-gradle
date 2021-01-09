@@ -15,17 +15,15 @@
  */
 package me.scana.okgradle.internal.dsl.model;
 
-import static com.android.tools.idea.Projects.getBaseDirPath;
+import static me.scana.okgradle.util.AndroidPluginUtils.getBaseDirPath;
 import static me.scana.okgradle.internal.dsl.model.GradleBuildModelImpl.populateSiblingDslFileWithGradlePropertiesFile;
 import static me.scana.okgradle.internal.dsl.model.GradleBuildModelImpl.populateWithParentModuleSubProjectsProperties;
-import static com.android.tools.idea.gradle.util.GradleUtil.getGradleBuildFile;
-import static com.android.tools.idea.gradle.util.GradleUtil.getGradleSettingsFile;
+import static me.scana.okgradle.util.AndroidPluginUtils.getGradleBuildFile;
+import static me.scana.okgradle.util.AndroidPluginUtils.getGradleSettingsFile;
 
 import me.scana.okgradle.internal.dsl.api.GradleBuildModel;
 import me.scana.okgradle.internal.dsl.api.GradleSettingsModel;
 import me.scana.okgradle.internal.dsl.api.ProjectBuildModel;
-import me.scana.okgradle.internal.dsl.model.GradleBuildModelImpl;
-import me.scana.okgradle.internal.dsl.model.GradleSettingsModelImpl;
 import me.scana.okgradle.internal.dsl.parser.BuildModelContext;
 import me.scana.okgradle.internal.dsl.parser.files.GradleBuildFile;
 import me.scana.okgradle.internal.dsl.parser.files.GradleDslFile;

@@ -15,8 +15,6 @@
  */
 package me.scana.okgradle.internal.dsl.api.dependencies;
 
-import me.scana.okgradle.internal.dsl.api.dependencies.*;
-import me.scana.okgradle.internal.dsl.api.dependencies.DependencyModel;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -15,7 +15,6 @@
  */
 package me.scana.okgradle.internal.dsl.api.android;
 
-import com.android.annotations.VisibleForTesting;
 import me.scana.okgradle.internal.dsl.api.android.AndroidModel;
 import me.scana.okgradle.internal.dsl.api.android.SigningConfigModel;
 import me.scana.okgradle.internal.dsl.api.ext.GradlePropertyModel;
@@ -130,7 +129,6 @@ public interface FlavorTypeModel extends GradleDslModel {
 
     void remove();
 
-    @VisibleForTesting
     GradlePropertyModel getModel();
   }
 

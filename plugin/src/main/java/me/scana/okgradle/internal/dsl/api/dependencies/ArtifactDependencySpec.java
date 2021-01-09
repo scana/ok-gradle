@@ -16,8 +16,6 @@
 package me.scana.okgradle.internal.dsl.api.dependencies;
 
 import me.scana.okgradle.internal.dsl.api.GradleModelProvider;
-import me.scana.okgradle.internal.dsl.api.dependencies.ArtifactDependencyModel;
-import com.android.tools.idea.projectsystem.GoogleMavenArtifactId;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,11 +44,6 @@ public interface ArtifactDependencySpec {
                                        @Nullable String classifier,
                                        @Nullable String extension) {
     return GradleModelProvider.get().getArtifactDependencySpec(name, group, version, classifier, extension);
-  }
-
-  @NotNull
-  static ArtifactDependencySpec create(@NotNull GoogleMavenArtifactId artifactId, @Nullable String version) {
-    return GradleModelProvider.get().getArtifactDependencySpec(artifactId, version);
   }
 
   boolean equalsIgnoreVersion(Object o);

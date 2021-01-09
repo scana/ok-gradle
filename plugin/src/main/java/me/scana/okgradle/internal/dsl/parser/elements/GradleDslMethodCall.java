@@ -15,14 +15,7 @@
  */
 package me.scana.okgradle.internal.dsl.parser.elements;
 
-import com.android.annotations.VisibleForTesting;
 import me.scana.okgradle.internal.dsl.model.ext.PropertyUtil;
-import me.scana.okgradle.internal.dsl.parser.elements.GradleDslElement;
-import me.scana.okgradle.internal.dsl.parser.elements.GradleDslExpression;
-import me.scana.okgradle.internal.dsl.parser.elements.GradleDslExpressionList;
-import me.scana.okgradle.internal.dsl.parser.elements.GradleDslLiteral;
-import me.scana.okgradle.internal.dsl.parser.elements.GradleDslSimpleExpression;
-import me.scana.okgradle.internal.dsl.parser.elements.GradleNameElement;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiElement;
 import java.io.File;
@@ -75,7 +68,6 @@ public final class GradleDslMethodCall extends GradleDslSimpleExpression {
   }
 
   // Test constructor allowing for null PsiElements.
-  @VisibleForTesting
   public GradleDslMethodCall(@NotNull me.scana.okgradle.internal.dsl.parser.elements.GradleDslElement parent,
                              @Nullable PsiElement methodCall,
                              @NotNull me.scana.okgradle.internal.dsl.parser.elements.GradleNameElement name,

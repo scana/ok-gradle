@@ -17,9 +17,6 @@ package me.scana.okgradle.internal.dsl.api;
 
 import static me.scana.okgradle.internal.dsl.api.GradleBuildModel.tryOrLog;
 
-import me.scana.okgradle.internal.dsl.api.GradleBuildModel;
-import me.scana.okgradle.internal.dsl.api.GradleModelProvider;
-import me.scana.okgradle.internal.dsl.api.GradleSettingsModel;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -41,7 +38,7 @@ public interface ProjectBuildModel {
   /**
    * This method should never be called on the UI thread, it will cause the parsing of Gradle build files which can take a long time.
    * The returned {@link ProjectBuildModel} is not thread safe. If you need to use the {@link ProjectBuildModel} from a multithreaded
-   * environment {@link ProjectBuildModelHandler} provides some basic synchronization.
+   * environment {ProjectBuildModelHandler} provides some basic synchronization.
    *
    * @param project the project to create a model for.
    * @return the model for the project
@@ -54,7 +51,7 @@ public interface ProjectBuildModel {
   /**
    * This method should never be called on the UI thread, it will cause the parsing of Gradle build files which can take a long time.
    * The returned {@link ProjectBuildModel} is not thread safe. If you need to use the {@link ProjectBuildModel} from a multithreaded
-   * environment {@link ProjectBuildModelHandler} provides some basic synchronization.
+   * environment {ProjectBuildModelHandler} provides some basic synchronization.
    * <p>
    * This method should be used when the {@link Project} object does not represent the Gradle build that you need to parse,
    * this is the case for composite build.
@@ -109,7 +106,7 @@ public interface ProjectBuildModel {
    * Exceptions will be logged via intellijs logger and Android Studios crash reporter.
    * <p>
    * This method should never be called on the UI thread, it will cause a parsing of Gradle build files which can take a long time.
-   * If you need to use the {@link ProjectBuildModel} from a multithreaded environment {@link ProjectBuildModelHandler} provides some
+   * If you need to use the {@link ProjectBuildModel} from a multithreaded environment {ProjectBuildModelHandler} provides some
    * basic synchronization.
    *
    * @param project the project to create a model for
