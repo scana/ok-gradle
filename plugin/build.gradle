@@ -9,6 +9,7 @@ intellij {
     updateSinceUntilBuild false
     plugins = ["java", "Groovy", "gradle", "Kotlin"]
     version = "IC-192.7142.36"
+    //localPath = "/Applications/Android Studio 4.2 Preview.app"
 }
 
 repositories {
