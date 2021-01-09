@@ -1,19 +1,17 @@
 
 <h1 align="center">Ok, Gradle!</h1>
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.5.0-blue"/>
+  <img src="https://img.shields.io/badge/version-1.0.0-blue"/>
   <img src="https://img.shields.io/github/workflow/status/scana/ok-gradle/Java%20CI"/>
 </p>
+<p align="center">IntelliJ/Android Studio Plugin for searching artifacts ids of popular Java libraries.</p>
 
-
-**This plugin is still in alpha stage, so it might be unstable. Feel free to share your feedback and report issues!**
+---
 
 This plugin is in JetBrains Plugins Repository! Get it from [here](https://plugins.jetbrains.com/plugin/10102-ok-gradle-).
 
 
 ![Take a look](images/look_and_feel.gif)
-
-IntelliJ/Android Studio Plugin for searching artifacts ids of popular Java libraries.
 
 Use those for adding new dependencies easily to your build.gradle/build.gradle.kts files.
 
@@ -50,7 +48,7 @@ I want to thank <a href="https://chrisbroadfoot.id.au">Chris Broadfoot</a> for c
 
 ## License
 ```
-Copyright 2019 Marcin Robaczyński
+Copyright 2021 Marcin Robaczyński "Scana"
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

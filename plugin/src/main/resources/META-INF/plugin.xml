@@ -1,46 +1,40 @@
 <idea-plugin>
     <id>me.scana.okgradle</id>
     <name>OK, Gradle!</name>
-    <version>0.5.0</version>
+    <version>1.0.0</version>
     <vendor email="scanarch@gmail.com" url="http://github.com/scana">Marcin Robaczyński</vendor>
 
     <description><![CDATA[
-        Plugin for searching artifacts ids of popular Java libraries.<br/>
-        Use those for adding new dependencies easily to your build.gradle/build.gradle.kts files.<br/>
-        <br/>
-        Retrofit! Was it:<br/>
-        <pre>compile 'com.square.retrofit:retrofit2:2.3.0'</pre>
-        or
-        <pre>compile 'com.squareup.retrofit2:retrofit:2.3.0'</pre>
-        ?<br/><br/>
-        Android Design library! Was it:
-        <pre>compile 'com.android.support:design:26.1.0'</pre>
-        or
-        <pre>compile 'com.android.support:support-design:26.1.0'</pre>
-        ?<br/><br/>
-        With this plugin, you won't have to remember it anymore nor open an external browser to search for it on the Internet!<br/>
-        <br/>
+        <p>Plugin for searching artifacts ids of popular Java libraries.</p>
+        <p>Use this for adding dependencies easily to your <b>build.gradle</b>/<b>build.gradle.kts</b> files.</p>
+
+        <b>Retrofit</b> - which is the correct one?<br/>
+        <pre>compile 'com.square.retrofit:retrofit2:2.9.0'</pre>
+        <pre>compile 'com.squareup.retrofit2:retrofit:2.9.0'</pre>
+
+        <b>Material Design Library</b> - which one was it?
+        <pre>compile 'com.google.android.material:material:1.2.1'</pre>
+        <pre>compile 'androidx.material:1.2.1'</pre>
+
+        <p>With this plugin, you won't have to remember it anymore nor open an external browser to search for it on the Internet!</p>
+
         <b>Usage:</b>
-        <br/>
-        Find the <em>OK, Gradle</em> action  with CTRL/CMD + SHIFT + A shortcut and type library's name that you are looking for in an input field.<br/>
-        To make your life even more easier, assign a shortcut to it. Personally, I prefer CMD+K - as in "OK!" (I don't use commit action in the IDE anyway).<br/>
-        You need to have an active Internet connection to be able to use this tool.
-        <br/>
-        <br/>
-        <b>This plugin is still in alpha stage, so it might be unstable. Feel free to visit <a href="http://github.com/scana/ok-gradle">OK, Gradle repo</a> and share your feedback - much appreciated!</b>
-        <br/>
-        <br/>
+        <p>Find the <em>OK, Gradle</em> action  with CTRL/CMD + SHIFT + A shortcut and type library's name that you are looking for in an input field.</p>
+        <p>To make your life even more easier, assign a shortcut to it, e.g. CMD+K if you don't use VCS features in your IDE</p>
+        <p><b>You need to have an active Internet connection to be able to use this tool.</b></p>
+
         <b>Disclaimer</b><br/>
-        I want to thank <a href="https://chrisbroadfoot.id.au">Chris Broadfoot</a> for creating <a href="http://gradleplease.appspot.com">http://gradleplease.appspot.com</a> website, which was an inspiration for this plugin.
+        <p>I want to thank <a href="https://chrisbroadfoot.id.au">Chris Broadfoot</a> for creating <a href="http://gradleplease.appspot.com">http://gradleplease.appspot.com</a> website, which was an inspiration for this plugin.</p>
     ]]>
     </description>
 
     <change-notes><![CDATA[
       <p>
-        0.5.0
+        1.0.0
         <ul>
-          <li>New: Support for adding dependencies to build.gradle.kts (Kotlin script) files!</li>
-          <li>Fix: Properly support undo action</li>
+          <li>Reworked the way Gradle files are being accessed, resolving issues with empty list of modules being displayed</li>
+          <li>New: got rid of Android plugin dependency</li>
+          <li>Updated list of dependencies from Google's repository</li>
         </ul>
       </p>
     ]]>
