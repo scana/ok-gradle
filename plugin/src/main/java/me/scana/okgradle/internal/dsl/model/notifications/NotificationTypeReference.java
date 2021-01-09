@@ -23,6 +23,8 @@ import me.scana.okgradle.internal.dsl.model.notifications.PropertyPlacementNotif
 import com.intellij.util.Producer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Supplier;
+
 /**
  * A type reference for subclasses of BuildModelNotification.
  * In order to add a new type of BuildModelNotification the following must be done
@@ -40,9 +42,9 @@ public class NotificationTypeReference<T extends BuildModelNotification> {
     new NotificationTypeReference<>(InvalidExpressionNotification.class, InvalidExpressionNotification::new);
 
   @NotNull private final Class<T> myClazz;
-  @NotNull private final Producer<T> myConstructor;
+  @NotNull private final Supplier<T> myConstructor;
 
-  NotificationTypeReference(@NotNull Class<T> clazz, @NotNull Producer<T> constructor) {
+  NotificationTypeReference(@NotNull Class<T> clazz, @NotNull Supplier<T> constructor) {
     myClazz = clazz;
     myConstructor = constructor;
   }
@@ -53,7 +55,7 @@ public class NotificationTypeReference<T extends BuildModelNotification> {
   }
 
   @NotNull
-  public Producer<T> getConstructor() {
+  public Supplier<T> getConstructor() {
     return myConstructor;
   }
 }
