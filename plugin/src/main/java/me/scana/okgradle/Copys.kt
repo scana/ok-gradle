@@ -19,5 +19,8 @@ class Copys {
                 "Press enter after selecting an artifact from the list to automatically add it",
                 "Some repositories might take longer to search through - give it a while"
         )
+        const val SUGGESTION_FIRST_PART = "(did you mean: "
+        const val SUGGESTION_LAST_PART = "?)"
+        const val INPUT_HINT = "try typing \'retrofit\'"
     }
 }

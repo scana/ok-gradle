@@ -30,13 +30,13 @@ class OkGradleDialog(private val presenter: OkGradle.Presenter) : DialogWrapper(
     }
 
     private val hintPanel = JPanel(HorizontalLayout(2)).apply {
-        add(JLabel("(did you mean: "))
+        add(JLabel(Copys.SUGGESTION_FIRST_PART))
         add(hintLink)
-        add(JLabel("?)"))
+        add(JLabel(Copys.SUGGESTION_LAST_PART))
     }
 
     private val libraryQuery = HintTextField().apply {
-        hint = "try typing \'retrofit\'"
+        hint = Copys.INPUT_HINT
         onKeyPress(KeyEvent.VK_DOWN) {
             transferFocus()
             resultList.selectedIndex = 0
