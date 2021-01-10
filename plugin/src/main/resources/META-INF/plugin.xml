@@ -8,6 +8,7 @@
         <p>Plugin for searching artifacts ids of popular Java libraries.</p>
         <p>Use this for adding dependencies easily to your <b>build.gradle</b>/<b>build.gradle.kts</b> files.</p>
         </br>
+        </br> 
         <b>Retrofit</b> - which is the correct one?<br/>
         <pre>
 compile 'com.square.retrofit:retrofit2:2.9.0'
@@ -17,6 +18,7 @@ compile 'com.squareup.retrofit2:retrofit:2.9.0'</pre>
         <pre>
 compile 'com.google.android.material:material:1.2.1'
 compile 'androidx.material:1.2.1'</pre>
+        </br>
         </br>
         <p>With this plugin, you won't have to remember it anymore nor open an external browser to search for it on the Internet!</p>
         </br>
