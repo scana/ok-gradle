@@ -2,7 +2,7 @@ package me.scana.okgradle
 
 class Copys {
     companion object {
-        const val TITLE = "Ok, Gradle!"
+        const val TITLE = "OK, Gradle!"
         const val ADD_DEPENDENCY_ACTION = "Add dependency"
         const val MODULES_TITLE = "Select a module:"
         const val COPY_TO_CLIPBOARD_ACTION = "Copy to clipboard"
@@ -18,7 +18,7 @@ class Copys {
                 "Press down key after typing a search phrase to jump to the list directly",
                 "Press enter after selecting an artifact from the list to automatically add it",
                 "Some repositories might take longer to search through - give it a while",
-                "You can set a custom shortcut for easier access to Ok, Gradle!"
+                "You can set a custom shortcut for easier access to OK, Gradle!"
         )
         const val SUGGESTION_FIRST_PART = "(did you mean: "
         const val SUGGESTION_LAST_PART = "?)"

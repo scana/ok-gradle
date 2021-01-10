@@ -1,5 +1,5 @@
 
-<h1 align="center">Ok, Gradle!</h1>
+<h1 align="center">OK, Gradle!</h1>
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.1-blue"/>
   <img src="https://img.shields.io/github/workflow/status/scana/ok-gradle/Java%20CI"/>

@@ -48,7 +48,7 @@ compile 'androidx.material:1.2.1'</pre>
 
     <actions>
         <action id="me.scana.okgradle.ok" class="me.scana.okgradle.OkGradleAction" text="OK, Gradle!"
-                description="Opens up Ok, Gradle dialog">
+                description="Opens up OK, Gradle dialog">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>
