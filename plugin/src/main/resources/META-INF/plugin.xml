@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>me.scana.okgradle</id>
     <name>OK, Gradle!</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <vendor email="scanarch@gmail.com" url="http://github.com/scana">Marcin Robaczyński</vendor>
 
     <description><![CDATA[
@@ -33,7 +33,7 @@ compile 'androidx.material:1.2.1'</pre>
 
     <change-notes><![CDATA[
       <p>
-        1.0.0
+        1.0.1
         <ul>
           <li>Reworked the way Gradle files are being accessed, resolving issues with empty list of modules being displayed</li>
           <li>New: got rid of Android plugin dependency</li>
