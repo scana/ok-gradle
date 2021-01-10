@@ -10,7 +10,7 @@ object Constants {
     const val DOT_KTS = ".KTS"
 
     const val GRADLE_PROPERTIES = "gradle.properties"
-    const val SETTINGS_GRADLE = "gradle.properties"
+    const val SETTINGS_GRADLE = "settings.gradle"
     const val GRADLE_PATH_SEPARATOR = ":"
 
 }
