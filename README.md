@@ -37,9 +37,6 @@ To make your life even more easier, assign a shortcut to it. Personally, I prefe
 
 You need to have an active Internet connection to be able to use this tool.
 
-## Disclaimer
-I want to thank <a href="https://chrisbroadfoot.id.au">Chris Broadfoot</a> for creating <a href="http://gradleplease.appspot.com">http://gradleplease.appspot.com</a> website, which was an inspiration for this plugin.
-
 ## Would you like to automatically update your dependencies?
 
 Take a look at [refreshVersions](https://jmfayard.github.io/refreshVersions/) project by @jmfayard
@@ -49,6 +46,9 @@ Take a look at [refreshVersions](https://jmfayard.github.io/refreshVersions/) pr
 - global online db for storing information about most used artifacts (for sorting purposes)
 - settings panel for tweaking things 
 - ???
+
+## Disclaimer
+I want to thank <a href="https://chrisbroadfoot.id.au">Chris Broadfoot</a> for creating <a href="http://gradleplease.appspot.com">http://gradleplease.appspot.com</a> website, which was an inspiration for this plugin.
 
 ## License
 ```
